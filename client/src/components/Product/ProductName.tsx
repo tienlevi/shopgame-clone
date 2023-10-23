@@ -1,0 +1,99 @@
+import { useState, useEffect, useCallback } from "react";
+import { useParams } from "react-router-dom";
+import ProductItems from "../../Items/ProductItems";
+import ToggleCart from "./Toggle/ToggleCart";
+import ToastSuccess from "./Toast/ToastSuccess";
+// import ToastRemove from "./Toast/ToastRemove";
+
+interface Cart {
+  id?: number;
+  name?: string;
+  img?: string;
+  price?: number;
+  origin?: string;
+}
+
+function ProductName() {
+  const [toast, setToast] = useState<boolean>(false);
+  // const [childrenToast, setChildrenToast] = useState<any>([]);
+  const { id } = useParams<string>();
+  const num = Number(id);
+  const thisProduct = ProductItems.find((item) => item.id === num);
+  const [cart, setCart] = useState<Cart[]>([]);
+  const added = cart.find((item) => item.id === num);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("ProductName");
+    if (saved) {
+      setCart(JSON.parse(saved) || []);
+    }
+  }, []);
+
+  const handleButton = useCallback(() => {
+    // setChildrenToast((prev: any) => {
+    //   const addToast = [...prev, childrenToast];
+    //   localStorage.setItem("ProductName", JSON.stringify(addToast));
+    //   setChildrenToast([...childrenToast, addToast]);
+    //   return addToast;
+    // });
+    if (added) {
+      return false;
+    } else {
+      setToast(!toast);
+      return true;
+    }
+  }, [added, toast]);
+
+  return (
+    <>
+      {toast ? (
+        <div className="fixed top-[10%] right-[5%] z-30">
+          <ToastSuccess activeToast={toast} onClose={handleButton} />
+        </div>
+      ) : (
+        ""
+      )}
+      <div className="max-w-[1200px] mx-auto mt-[150px] xl:w-[1000px] lg:w-[720px] md:w-[500px]">
+        <div className="flex md:flex-col">
+          <img
+            className="w-[250px] h-[350px] object-cover md:w-[100%] md:h-[650px]"
+            src={thisProduct?.img}
+            alt=""
+          />
+          <div className="ml-4 md:ml-0">
+            <h1 className="text-[25px] font-bold md:text-[32px]">
+              {thisProduct?.name}
+            </h1>
+            <p className="text-[18px] my-2 text-red font-bold md:text-[24px]">
+              {thisProduct?.price}$
+            </p>
+            <p className="text-[18px] my-2 md:text-[24px]">
+              Status: <span className="text-green">Stoking</span>
+            </p>
+            <p className="text-[18px] my-2 md:text-[24px]">
+              {thisProduct?.origin}
+            </p>
+            <div className="flex md:flex-col md:items-center">
+              <button className="flex items-center justify-center w-[150px] h-[40px] text-[20px] text-white bg-bluesecond rounded-[5px] cursor-pointer md:w-[100%] md:h-[50px] md:text-[27px]">
+                Buy
+              </button>
+
+              <div onClick={handleButton}>
+                <ToggleCart
+                  id={thisProduct?.id}
+                  name={thisProduct?.name}
+                  img={thisProduct?.img}
+                  price={thisProduct?.price}
+                  origin={thisProduct?.origin}
+                  activeCart={true || false}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default ProductName;

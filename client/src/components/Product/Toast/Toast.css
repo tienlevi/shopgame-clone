@@ -1,0 +1,37 @@
+@keyframes toast {
+  0% {
+    transform: translateX(-30px);
+  }
+  40% {
+    transform: translateX(0);
+  }
+  80% {
+    transform: translateX(-5%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(calc(100% + 32px));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    display: none;
+  }
+}
+
+.toast {
+  animation: toast 5s ease forwards;
+}
+
+.toast-slide {
+  animation: slideInLeft ease 0.3s, fadeOut linear 5s forwards;
+}
