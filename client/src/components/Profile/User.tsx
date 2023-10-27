@@ -2,16 +2,14 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/Auth";
 import useAxios from "../../hooks/useAxios";
-import useRefreshToken from "../../hooks/useRefreshToken";
 import { FaUser, FaInfo, FaShieldAlt, FaPaperclip } from "react-icons/fa";
 
-export function User() {
+function User() {
   const [tab, setTab] = useState<number>(1);
   const [infor, setInfor] = useState<any>();
   const auth = useAuth();
   const api = useAxios();
   const navigate = useNavigate();
-  const refresh = useRefreshToken();
 
   useEffect(() => {
     const getUser = async () => {
@@ -133,7 +131,6 @@ export function User() {
                 <h1 className="text-[21px] font-bold">Phone number</h1>
                 <p className="h-[40px] text-[18px] my-2">1234567890</p>
               </div>
-              <div onClick={refresh}>Refresh Token</div>
             </div>
           </div>
         </div>

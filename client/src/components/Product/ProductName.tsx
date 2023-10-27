@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import ProductItems from "../../Items/ProductItems";
 import ToggleCart from "./Toggle/ToggleCart";
 import ToastSuccess from "./Toast/ToastSuccess";
-// import ToastRemove from "./Toast/ToastRemove";
+import ToastRemove from "./Toast/ToastRemove";
 
 interface Cart {
   id?: number;
@@ -13,9 +13,13 @@ interface Cart {
   origin?: string;
 }
 
+interface Toasts {
+  id: number;
+}
+
 function ProductName() {
+  const [childrenToast, setChildrenToast] = useState<Toasts[]>([]);
   const [toast, setToast] = useState<boolean>(false);
-  // const [childrenToast, setChildrenToast] = useState<any>([]);
   const { id } = useParams<string>();
   const num = Number(id);
   const thisProduct = ProductItems.find((item) => item.id === num);
@@ -30,29 +34,47 @@ function ProductName() {
   }, []);
 
   const handleButton = useCallback(() => {
-    // setChildrenToast((prev: any) => {
-    //   const addToast = [...prev, childrenToast];
-    //   localStorage.setItem("ProductName", JSON.stringify(addToast));
-    //   setChildrenToast([...childrenToast, addToast]);
-    //   return addToast;
-    // });
+    setChildrenToast((prev: any) => {
+      const addToast: Toasts = {
+        id: prev.length,
+      };
+      setChildrenToast([...childrenToast, addToast]);
+      return childrenToast;
+    });
+    setTimeout(() => {
+      setChildrenToast((items: any) => items.filter((item: any) => item.id));
+    }, 5000);
     if (added) {
       return false;
     } else {
-      setToast(!toast);
       return true;
     }
-  }, [added, toast]);
+  }, [added, childrenToast]);
+
+  const closeToast = (index: number) => {
+    const dismissToast = childrenToast.filter((item) => item.id !== index);
+    setChildrenToast(dismissToast);
+  };
 
   return (
     <>
-      {toast ? (
-        <div className="fixed top-[10%] right-[5%] z-30">
-          <ToastSuccess activeToast={toast} onClose={handleButton} />
-        </div>
-      ) : (
-        ""
-      )}
+      <div className="fixed top-[10%] right-[5%] z-30">
+        {childrenToast.map((item, index) =>
+          added ? (
+            <ToastRemove
+              key={index}
+              activeToast={!toast}
+              onClose={() => closeToast(item.id)}
+            />
+          ) : (
+            <ToastSuccess
+              key={index}
+              activeToast={!toast}
+              onClose={() => closeToast(item.id)}
+            />
+          )
+        )}
+      </div>
       <div className="max-w-[1200px] mx-auto mt-[150px] xl:w-[1000px] lg:w-[720px] md:w-[500px]">
         <div className="flex md:flex-col">
           <img

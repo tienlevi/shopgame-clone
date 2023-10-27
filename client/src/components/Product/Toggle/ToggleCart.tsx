@@ -10,9 +10,9 @@ interface addCart {
 }
 
 function AddCart({ id, name, img, price, origin }: addCart) {
-  const [toggleProduct, setToggleProduct] = useState<addCart[]>([]);
+  const [product, setToggleProduct] = useState<addCart[]>([]);
   const [isCartAdded, setIsCartAdded] = useState(false);
-  const added = toggleProduct.find((item) => item.id === id);
+  const added = product.find((item) => item.id === id);
 
   useEffect(() => {
     const saved = localStorage.getItem("ProductName");
@@ -23,7 +23,7 @@ function AddCart({ id, name, img, price, origin }: addCart) {
     if (added) {
       setIsCartAdded(true);
     }
-  }, [added, toggleProduct]);
+  }, [added, product]);
 
   const handleAddProduct = () => {
     if (added) {
@@ -36,29 +36,25 @@ function AddCart({ id, name, img, price, origin }: addCart) {
         price: price,
         origin: origin,
       };
-      const list = [...toggleProduct, update];
+      const list = [...product, update];
       localStorage.setItem("ProductName", JSON.stringify(list));
     }
-    setIsCartAdded(!isCartAdded);
-    setToggleProduct(toggleProduct);
+    setIsCartAdded(true);
+    setToggleProduct(product);
   };
 
   const handleRemoveProduct = (index: any) => {
-    setIsCartAdded(isCartAdded);
-    if (!added) {
-      return true;
-    } else {
-      const remove = toggleProduct.filter((item) => item.id !== index);
-      localStorage.setItem("ProductName", JSON.stringify(remove));
-      return remove;
-    }
+    setIsCartAdded(false);
+    const remove = product.filter((item) => item.id !== index);
+    localStorage.setItem("ProductName", JSON.stringify(remove));
+    return remove;
   };
 
   return (
     <>
       {isCartAdded ? (
         <button
-          onClick={handleRemoveProduct}
+          onClick={() => handleRemoveProduct(id)}
           className="flex items-center justify-center w-[220px] h-[40px] ml-4 text-[20px] border-2 border-bluesecond text-blue bg-white rounded-[5px] cursor-pointer md:w-[100%] md:h-[50px] md:my-5 md:ml-0 md:text-[27px]"
         >
           Remove to cart

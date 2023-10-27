@@ -35,7 +35,9 @@ function Header() {
       }
     };
     window.addEventListener("resize", handleResize);
-    return () => window.addEventListener("resize", handleResize);
+    return () => {
+      window.addEventListener("resize", handleResize);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

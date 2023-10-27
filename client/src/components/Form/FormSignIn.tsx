@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../context/Auth";
-import { FaArrowLeft, FaGoogle, FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaArrowLeft, FaGoogle } from "react-icons/fa";
 
 function FormSignUp() {
   const userRef = useRef<HTMLInputElement | null>(null);
@@ -94,9 +94,7 @@ function FormSignUp() {
             </p>
             <p className="text-[20px] text-center mt-2">OR</p>
             <div className="flex justify-center mt-[17px]">
-              <FaFacebook className="text-[26px] mx-[10px] cursor-pointer" />
               <FaGoogle className="text-[26px] mx-[10px] cursor-pointer" />
-              <FaInstagram className="text-[26px] mx-[10px] cursor-pointer" />
             </div>
           </div>
         </div>
