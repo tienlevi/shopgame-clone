@@ -1,18 +1,17 @@
 import axios from "axios";
 import { useEffect } from "react";
 import useRefreshToken from "./useRefreshToken";
-import { useAuth } from "../context/Auth";
 
 function useAxios() {
   const axiosJWT = axios.create();
   const refresh = useRefreshToken();
-  const auth = useAuth();
+  const accessToken = localStorage.getItem("AccessToken");
 
   useEffect(() => {
     const requestIntercept = axiosJWT.interceptors.request.use(
       async (config) => {
         if (!config.headers["Authorization"]) {
-          config.headers["Authorization"] = `Bearer ${auth?.accessToken}`;
+          config.headers["Authorization"] = `Bearer ${accessToken}`;
         }
         return config;
       },
@@ -38,7 +37,7 @@ function useAxios() {
       axiosJWT.interceptors.request.eject(requestIntercept);
       axiosJWT.interceptors.response.eject(responseIntercept);
     };
-  }, [auth, axiosJWT, refresh]);
+  }, [accessToken, axiosJWT, refresh]);
 
   return axiosJWT;
 }

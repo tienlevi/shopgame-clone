@@ -10,54 +10,41 @@ interface addCart {
 }
 
 function AddCart({ id, name, img, price, origin }: addCart) {
-  const [product, setToggleProduct] = useState<addCart[]>([]);
-  const [isCartAdded, setIsCartAdded] = useState(false);
+  const [product, setProduct] = useState<addCart[]>([]);
+  const [isCartAdded, setIsCartAdded] = useState<boolean>(false);
   const added = product.find((item) => item.id === id);
 
   useEffect(() => {
     const saved = localStorage.getItem("ProductName");
-    saved && setToggleProduct(JSON.parse(saved));
+    saved && setProduct(JSON.parse(saved));
   }, []);
 
+  const update: addCart = {
+    id: id,
+    name: name,
+    img: img,
+    price: price,
+    origin: origin,
+  };
   useEffect(() => {
-    if (added) {
-      setIsCartAdded(true);
-    }
-  }, [added, product]);
+    added && setIsCartAdded(true);
+  }, [added]);
 
   const handleAddProduct = () => {
-    if (added) {
-      return false;
-    } else {
-      const update: addCart = {
-        id: id,
-        name: name,
-        img: img,
-        price: price,
-        origin: origin,
-      };
-      const list = [...product, update];
+    if (added) return;
+    setProduct((prev: any) => {
+      const list = [...prev, update];
       localStorage.setItem("ProductName", JSON.stringify(list));
-    }
-    setIsCartAdded(true);
-    setToggleProduct(product);
-  };
-
-  const handleRemoveProduct = (index: any) => {
-    setIsCartAdded(false);
-    const remove = product.filter((item) => item.id !== index);
-    localStorage.setItem("ProductName", JSON.stringify(remove));
-    return remove;
+      setIsCartAdded(true);
+      return list;
+    });
   };
 
   return (
     <>
       {isCartAdded ? (
-        <button
-          onClick={() => handleRemoveProduct(id)}
-          className="flex items-center justify-center w-[220px] h-[40px] ml-4 text-[20px] border-2 border-bluesecond text-blue bg-white rounded-[5px] cursor-pointer md:w-[100%] md:h-[50px] md:my-5 md:ml-0 md:text-[27px]"
-        >
-          Remove to cart
+        <button className="flex items-center justify-center w-[220px] h-[40px] ml-4 text-[20px] border-2 border-bluesecond text-blue bg-white rounded-[5px] cursor-pointer md:w-[100%] md:h-[50px] md:my-5 md:ml-0 md:text-[27px]">
+          You added this product
         </button>
       ) : (
         <button

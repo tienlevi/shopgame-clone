@@ -1,7 +1,6 @@
-import { useState, useRef } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "../../context/Auth";
 import { FaArrowLeft, FaGoogle } from "react-icons/fa";
 
 function FormSignUp() {
@@ -9,11 +8,15 @@ function FormSignUp() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const auth = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.path || "/Profile";
+  const accessToken = localStorage.getItem("AccessToken");
   axios.defaults.withCredentials = true;
+
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/Profile");
+    }
+  }, [accessToken, navigate]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -29,16 +32,20 @@ function FormSignUp() {
           withCredentials: true,
         }
       );
+      const admin = response?.data?.username;
       const user = response?.data?.username;
       const pass = response?.data?.password;
       const accessToken = response?.data?.accessToken;
       const refreshToken = response?.data?.refreshToken;
-      auth?.login(username);
-      auth?.login(accessToken);
-      navigate(from, { replace: true });
-      console.log({ user, pass, accessToken, refreshToken });
-      localStorage.setItem("RefreshToken", refreshToken);
-      localStorage.setItem("AccessToken", accessToken);
+      if (admin === "admin") {
+        navigate("/Admin", { replace: true });
+        localStorage.setItem("Admin", admin);
+      } else {
+        navigate("/SignIn");
+        console.log({ user, pass, accessToken, refreshToken });
+        localStorage.setItem("RefreshToken", refreshToken);
+        localStorage.setItem("AccessToken", accessToken);
+      }
     } catch (err: any) {
       if (err.response?.status === 400) {
         setError("user not found");

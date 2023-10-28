@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import ProductItems from "../../Items/ProductItems";
 import ToggleCart from "./Toggle/ToggleCart";
 import ToastSuccess from "./Toast/ToastSuccess";
-import ToastRemove from "./Toast/ToastRemove";
 
 interface Cart {
   id?: number;
@@ -13,12 +12,7 @@ interface Cart {
   origin?: string;
 }
 
-interface Toasts {
-  id: number;
-}
-
 function ProductName() {
-  const [childrenToast, setChildrenToast] = useState<Toasts[]>([]);
   const [toast, setToast] = useState<boolean>(false);
   const { id } = useParams<string>();
   const num = Number(id);
@@ -34,46 +28,22 @@ function ProductName() {
   }, []);
 
   const handleButton = useCallback(() => {
-    setChildrenToast((prev: any) => {
-      const addToast: Toasts = {
-        id: prev.length,
-      };
-      setChildrenToast([...childrenToast, addToast]);
-      return childrenToast;
-    });
-    setTimeout(() => {
-      setChildrenToast((items: any) => items.filter((item: any) => item.id));
-    }, 5000);
+    setToast(true);
     if (added) {
       return false;
     } else {
       return true;
     }
-  }, [added, childrenToast]);
+  }, [added]);
 
-  const closeToast = (index: number) => {
-    const dismissToast = childrenToast.filter((item) => item.id !== index);
-    setChildrenToast(dismissToast);
+  const closeToast = () => {
+    setToast(toast);
   };
 
   return (
     <>
       <div className="fixed top-[10%] right-[5%] z-30">
-        {childrenToast.map((item, index) =>
-          added ? (
-            <ToastRemove
-              key={index}
-              activeToast={!toast}
-              onClose={() => closeToast(item.id)}
-            />
-          ) : (
-            <ToastSuccess
-              key={index}
-              activeToast={!toast}
-              onClose={() => closeToast(item.id)}
-            />
-          )
-        )}
+        {toast && <ToastSuccess activeToast={toast} onClose={closeToast} />}
       </div>
       <div className="max-w-[1200px] mx-auto mt-[150px] xl:w-[1000px] lg:w-[720px] md:w-[500px]">
         <div className="flex md:flex-col">
@@ -107,7 +77,7 @@ function ProductName() {
                   img={thisProduct?.img}
                   price={thisProduct?.price}
                   origin={thisProduct?.origin}
-                  activeCart={true || false}
+                  activeCart={toast}
                 />
               </div>
             </div>

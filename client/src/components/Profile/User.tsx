@@ -1,22 +1,24 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/Auth";
 import useAxios from "../../hooks/useAxios";
 import { FaUser, FaInfo, FaShieldAlt, FaPaperclip } from "react-icons/fa";
+import RefreshToken from "../../hooks/useRefreshToken";
 
 function User() {
   const [tab, setTab] = useState<number>(1);
   const [infor, setInfor] = useState<any>();
-  const auth = useAuth();
   const api = useAxios();
   const navigate = useNavigate();
+  const accessToken = localStorage.getItem("AccessToken");
+  const refresh = RefreshToken();
+  console.log(accessToken);
 
   useEffect(() => {
     const getUser = async () => {
       try {
         const response = await api.get("http://localhost:5000/user", {
           headers: {
-            Authorization: `Bearer ${auth?.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         });
         setInfor(response.data);
@@ -25,10 +27,13 @@ function User() {
       }
     };
     getUser();
-  }, [auth]);
+  }, []);
+
+  useEffect(() => {
+    accessToken === "" && navigate("/SignIn");
+  }, [accessToken, navigate]);
 
   const handleLogout = () => {
-    auth?.logout();
     navigate("/");
     localStorage.removeItem("RefreshToken");
     localStorage.removeItem("AccessToken");
@@ -38,6 +43,7 @@ function User() {
     <>
       <div className="max-w-[1200px] mx-auto mt-[140px] px-3">
         <h1 className="text-[29px] font-bold mb-5">Profile </h1>
+        <button onClick={refresh}>Refresh</button>
         <div className="flex justify-between">
           <div className="w-[380px] h-[450px] bg-F7F7F7">
             <div

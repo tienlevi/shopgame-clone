@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Menu from "./MenuResponsive/Menu";
-import { useAuth } from "../../context/Auth";
 import { FaSearch, FaUser, FaBars } from "react-icons/fa";
 
 function Header() {
@@ -10,7 +9,8 @@ function Header() {
   const [toggle, setToggle] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const body = document.querySelector("body");
-  const auth = useAuth();
+  const accessToken = localStorage.getItem("AccessToken");
+  const Admin = localStorage.getItem("Admin");
 
   useEffect(() => {
     const ScrollMouse = () => {
@@ -56,7 +56,6 @@ function Header() {
   const handleSearch = () => {
     window.location.href = `/Search?name=${search}`;
   };
-
   return (
     <>
       <header
@@ -85,10 +84,15 @@ function Header() {
           </Link>
         </div>
         <div className="mx-2">
-          {auth?.accessToken ? (
+          {accessToken ? (
             <Link className="flex items-center" to="/Profile">
               <FaUser className="h-[35px] pr-2 text-white text-[30px] rounded-r-sm cursor-pointer" />
               <p className="text-[19px] text-white">Profile</p>
+            </Link>
+          ) : Admin ? (
+            <Link className="flex items-center" to="/Admin">
+              <FaUser className="h-[35px] pr-2 text-white text-[30px] rounded-r-sm cursor-pointer" />
+              <p className="text-[19px] text-white">Admin</p>
             </Link>
           ) : (
             <Link className="flex items-center" to="/SignIn">

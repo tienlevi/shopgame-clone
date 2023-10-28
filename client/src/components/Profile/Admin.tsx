@@ -1,21 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/Auth";
-import useRefreshToken from "../../hooks/useRefreshToken";
+import axios from "axios";
 import { FaUser, FaInfo, FaShieldAlt, FaPaperclip } from "react-icons/fa";
 
 function Admin() {
   const [tab, setTab] = useState<number>(1);
-  const auth = useAuth();
   const navigate = useNavigate();
-  const refresh = useRefreshToken();
 
   const handleLogout = () => {
-    auth?.logout();
+    // auth?.logout();
     navigate("/");
-    localStorage.removeItem("RefreshToken");
-    localStorage.removeItem("AccessToken");
+    localStorage.removeItem("Admin");
   };
+
+  useEffect(() => {
+    const Data = async () => {
+      try {
+        const response = axios.get("http://localhost:5000/");
+        console.log((await response).data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    Data();
+  }, []);
 
   return (
     <>
@@ -114,7 +122,10 @@ function Admin() {
                 <h1 className="text-[21px] font-bold">Phone number</h1>
                 <p className="h-[40px] text-[18px] my-2">1234567890</p>
               </div>
-              <div onClick={refresh}>Refresh Token</div>
+              <div className="my-1">
+                <h1 className="text-[21px] font-bold">Manager Customers</h1>
+                <p className="h-[40px] text-[18px] my-2"></p>
+              </div>
             </div>
           </div>
         </div>
