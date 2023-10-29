@@ -11,15 +11,16 @@ function User() {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("AccessToken");
   const refresh = RefreshToken();
-  console.log(accessToken);
 
   useEffect(() => {
+    const controller = new AbortController();
     const getUser = async () => {
       try {
         const response = await api.get("http://localhost:5000/user", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
+          signal: controller.signal,
         });
         setInfor(response.data);
       } catch (err) {
@@ -27,6 +28,9 @@ function User() {
       }
     };
     getUser();
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   useEffect(() => {

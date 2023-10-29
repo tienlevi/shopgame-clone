@@ -8,7 +8,7 @@ function useAxios() {
   const accessToken = localStorage.getItem("AccessToken");
 
   useEffect(() => {
-    const requestIntercept = axiosJWT.interceptors.request.use(
+    axiosJWT.interceptors.request.use(
       async (config) => {
         if (!config.headers["Authorization"]) {
           config.headers["Authorization"] = `Bearer ${accessToken}`;
@@ -20,7 +20,7 @@ function useAxios() {
       }
     );
 
-    const responseIntercept = axiosJWT.interceptors.response.use(
+    axiosJWT.interceptors.response.use(
       (response) => response,
       async (error) => {
         const prevRequest = error?.config;
@@ -32,11 +32,6 @@ function useAxios() {
         return Promise.reject(error);
       }
     );
-
-    return () => {
-      axiosJWT.interceptors.request.eject(requestIntercept);
-      axiosJWT.interceptors.response.eject(responseIntercept);
-    };
   }, [accessToken, axiosJWT, refresh]);
 
   return axiosJWT;

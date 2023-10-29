@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import ProductItems from "../../Items/ProductItems";
-import ToggleCart from "./Toggle/ToggleCart";
+import ToggleCart from "./Add/Add";
 import ToastSuccess from "./Toast/ToastSuccess";
 
 interface Cart {
