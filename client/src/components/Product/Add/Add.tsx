@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Button } from "@mui/material";
-import makeStyles from "@mui/material";
-
+import { Button, ThemeProvider } from "@mui/material";
+import theme from "../../theme/color";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 interface addCart {
   id?: number;
   name?: string;
@@ -44,18 +44,21 @@ function AddCart({ id, name, img, price, origin }: addCart) {
 
   return (
     <>
-      {isCartAdded ? (
-        <button className="flex items-center justify-center w-[220px] h-[40px] ml-4 text-[20px] border-2 border-bluesecond text-blue bg-white rounded-[5px] cursor-pointer md:w-[100%] md:h-[50px] md:my-5 md:ml-0 md:text-[27px]">
-          You added this product
-        </button>
-      ) : (
-        <button
-          onClick={handleAddProduct}
-          className="flex items-center justify-center w-[220px] h-[40px] ml-4 text-[20px] border-2 border-bluesecond text-blue bg-white rounded-[5px] cursor-pointer md:w-[100%] md:h-[50px] md:my-5 md:ml-0 md:text-[27px]"
-        >
-          Add to cart
-        </button>
-      )}
+      <ThemeProvider theme={theme}>
+        {isCartAdded ? (
+          <Button variant="outlined">You added this product</Button>
+        ) : (
+          <Button
+            variant="outlined"
+            onClick={handleAddProduct}
+            sx={{ width: 220, bgcolor: "" }}
+            color="primary"
+            startIcon={<ShoppingCartIcon />}
+          >
+            Add to cart
+          </Button>
+        )}
+      </ThemeProvider>
     </>
   );
 }

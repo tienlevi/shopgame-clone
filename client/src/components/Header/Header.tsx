@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Menu from "./MenuResponsive/Menu";
-import { FaSearch, FaUser, FaBars } from "react-icons/fa";
+import { FaUser, FaBars } from "react-icons/fa";
+import Paper from "@mui/material/Paper";
+import InputBase from "@mui/material/InputBase";
+import SearchIcon from "@mui/icons-material/Search";
 
 function Header() {
   const [scroll, setScroll] = useState<boolean>(true);
@@ -10,7 +13,7 @@ function Header() {
   const [search, setSearch] = useState<string>("");
   const body = document.querySelector("body");
   const accessToken = localStorage.getItem("AccessToken");
-  const Admin = localStorage.getItem("Admin");
+  const admin = localStorage.getItem("Admin");
 
   useEffect(() => {
     const ScrollMouse = () => {
@@ -63,25 +66,31 @@ function Header() {
           scroll ? "top-0" : "top-[-20px]"
         }`}
       >
-        <div className="flex items-center mr-3">
-          <input
-            className="h-[35px] pl-2 focus:outline-none rounded-l-sm text-[18px]"
-            type="text"
-            placeholder="Search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSearch();
-              }
+        <div className="mx-3">
+          <Paper
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              pl: 2,
+              height: 35,
             }}
-          />
-          <Link to={`/Search?name=${search}`}>
-            <FaSearch
-              onClick={handleSearch}
-              className="h-[35px] pr-2 text-black bg-white text-[30px] rounded-r-sm cursor-pointer"
+          >
+            <InputBase
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
+              placeholder="Search Product"
             />
-          </Link>
+            <SearchIcon
+              onClick={handleSearch}
+              sx={{ mr: 1.5, height: 35, fontSize: 25 }}
+            />
+          </Paper>
         </div>
         <div className="mx-2">
           {accessToken ? (
@@ -89,7 +98,7 @@ function Header() {
               <FaUser className="h-[35px] pr-2 text-white text-[30px] rounded-r-sm cursor-pointer" />
               <p className="text-[19px] text-white">Profile</p>
             </Link>
-          ) : Admin ? (
+          ) : admin ? (
             <Link className="flex items-center" to="/Admin">
               <FaUser className="h-[35px] pr-2 text-white text-[30px] rounded-r-sm cursor-pointer" />
               <p className="text-[19px] text-white">Admin</p>
