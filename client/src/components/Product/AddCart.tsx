@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button, ThemeProvider } from "@mui/material";
-import theme from "../../theme/color";
+import theme from "../theme/theme";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 interface addCart {
   id?: number;
@@ -9,6 +9,7 @@ interface addCart {
   price?: number;
   origin?: string;
   activeCart?: boolean;
+  add?: () => void;
 }
 
 function AddCart({ id, name, img, price, origin }: addCart) {
@@ -46,12 +47,21 @@ function AddCart({ id, name, img, price, origin }: addCart) {
     <>
       <ThemeProvider theme={theme}>
         {isCartAdded ? (
-          <Button variant="outlined">You added this product</Button>
+          <Button
+            variant="outlined"
+            sx={{
+              width: { xl: "250px", lg: "250px", md: "250px", sm: "100%" },
+            }}
+          >
+            You added this product
+          </Button>
         ) : (
           <Button
             variant="outlined"
             onClick={handleAddProduct}
-            sx={{ width: 220, bgcolor: "" }}
+            sx={{
+              width: { xl: "250px", lg: "250px", md: "250px", sm: "100%" },
+            }}
             color="primary"
             startIcon={<ShoppingCartIcon />}
           >

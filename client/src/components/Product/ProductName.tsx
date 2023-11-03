@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { Stack, Button, ThemeProvider } from "@mui/material";
-import theme from "../theme/color";
+import theme from "../theme/theme";
 import ProductItems from "../../Items/ProductItems";
-import ToggleCart from "./Add/Add";
+import AddCart from "./AddCart";
 import ToastSuccess from "./Toast/ToastSuccess";
 
 interface Cart {
@@ -39,7 +39,7 @@ function ProductName() {
   }, [added]);
 
   const closeToast = () => {
-    setToast(toast);
+    setToast(!toast);
   };
 
   return (
@@ -68,18 +68,32 @@ function ProductName() {
               <p className="text-[18px] my-2 md:text-[24px]">
                 {thisProduct?.origin}
               </p>
-              <Stack spacing={4} direction="row">
-                <Button sx={{ width: 150 }} color="primary" variant="contained">
+              <Stack
+                spacing={4}
+                direction={{ xl: "row", lg: "row", md: "row", sm: "column" }}
+              >
+                <Button
+                  sx={{
+                    width: {
+                      xl: "150px",
+                      lg: "150px",
+                      md: "150px",
+                      sm: "100%",
+                    },
+                  }}
+                  color="primary"
+                  variant="contained"
+                >
                   Buy
                 </Button>
                 <div onClick={handleButton}>
-                  <ToggleCart
+                  <AddCart
                     id={thisProduct?.id}
                     name={thisProduct?.name}
                     img={thisProduct?.img}
                     price={thisProduct?.price}
                     origin={thisProduct?.origin}
-                    activeCart={toast}
+                    activeCart={!toast}
                   />
                 </div>
               </Stack>

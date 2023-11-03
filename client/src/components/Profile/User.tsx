@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useAxios from "../../hooks/useAxios";
+import useInterceptors from "../../hooks/useInterceptors";
 import { FaUser, FaInfo, FaShieldAlt, FaPaperclip } from "react-icons/fa";
 // import RefreshToken from "../../hooks/useRefreshToken";
 
 function User() {
   const [tab, setTab] = useState<number>(1);
   const [infor, setInfor] = useState<any>();
-  const api = useAxios();
+  const api = useInterceptors();
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("AccessToken");
-  // const refresh = RefreshToken();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -31,7 +30,7 @@ function User() {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [accessToken]);
 
   useEffect(() => {
     accessToken === "" && navigate("/SignIn");

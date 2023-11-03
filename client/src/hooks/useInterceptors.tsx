@@ -24,8 +24,8 @@ function useAxios() {
       (response) => response,
       async (error) => {
         const prevRequest = error?.config;
-        if (error?.response?.status === 403) {
-          const newAccessToken = await refresh();
+        const newAccessToken = await refresh();
+        if (error?.response?.status === 403 || !newAccessToken) {
           prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
           return prevRequest;
         }

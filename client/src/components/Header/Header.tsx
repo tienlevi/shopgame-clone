@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Menu from "./MenuResponsive/Menu";
 import { FaUser, FaBars } from "react-icons/fa";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import Menu from "./MenuResponsive/Menu";
 
 function Header() {
   const [scroll, setScroll] = useState<boolean>(true);

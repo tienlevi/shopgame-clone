@@ -16,7 +16,7 @@ function Admin() {
   useEffect(() => {
     const Data = async () => {
       try {
-        const response = axios.get("http://localhost:5000/");
+        const response = axios.get("http://localhost:5000/username");
         console.log((await response).data);
       } catch (err) {
         console.log(err);
