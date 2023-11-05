@@ -5,10 +5,10 @@ import { FaUser, FaInfo, FaShieldAlt, FaPaperclip } from "react-icons/fa";
 
 function Admin() {
   const [tab, setTab] = useState<number>(1);
+  const [customers, setCustomers] = useState<any>();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // auth?.logout();
     navigate("/");
     localStorage.removeItem("Admin");
   };
@@ -16,8 +16,9 @@ function Admin() {
   useEffect(() => {
     const Data = async () => {
       try {
-        const response = axios.get("http://localhost:5000/username");
-        console.log((await response).data);
+        const response: any = await axios.get("http://localhost:5000/username");
+        setCustomers(response?.data);
+        console.log(customers);
       } catch (err) {
         console.log(err);
       }
@@ -124,7 +125,11 @@ function Admin() {
               </div>
               <div className="my-1">
                 <h1 className="text-[21px] font-bold">Manager Customers</h1>
-                <p className="h-[40px] text-[18px] my-2"></p>
+                <div className="h-[40px] text-[18px] my-2">
+                  {customers?.map((item: any, index: number) => (
+                    <p key={index}>{item?.username}</p>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

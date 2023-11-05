@@ -104,7 +104,7 @@ function Header() {
               <p className="text-[19px] text-white">Admin</p>
             </Link>
           ) : (
-            <Link className="flex items-center" to="/SignIn">
+            <Link className="flex items-center" to="/Login">
               <FaUser className="h-[35px] pr-2 text-white text-[30px] rounded-r-sm cursor-pointer" />
               <p className="text-[19px] text-white">Login</p>
             </Link>

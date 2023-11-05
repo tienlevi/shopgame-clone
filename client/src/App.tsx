@@ -5,7 +5,8 @@ import Home from "./Pages/Home";
 import NotFound from "./Pages/404";
 import ProductDetail from "./Pages/ProductDetail";
 import Cart from "./Pages/Cart";
-import SignUp from "./Pages/SignIn";
+import Login from "./Pages/Login";
+import SignUp from "./Pages/SignUp";
 import Admin from "./Pages/AdminPage";
 import Profile from "./Pages/Profile";
 import Search from "./Pages/Search";
@@ -23,7 +24,8 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/ProductDetail/:id" element={<ProductDetail />} />
         <Route path="/Cart" element={<Cart />} />
-        <Route path="/SignIn" element={<SignUp />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/SignUp" element={<SignUp />} />
         <Route path="/Admin" element={<Admin />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/Search" element={<Search />} />

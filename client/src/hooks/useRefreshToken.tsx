@@ -16,7 +16,7 @@ function RefreshToken() {
       const refreshToken = response?.data?.refreshToken;
       localStorage.setItem("AccessToken", newAccessToken);
       localStorage.setItem("RefreshToken", refreshToken);
-      return response.data;
+      return response;
     } catch (err) {
       console.log(err);
     }

@@ -2,34 +2,33 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useInterceptors from "../../hooks/useInterceptors";
 import { FaUser, FaInfo, FaShieldAlt, FaPaperclip } from "react-icons/fa";
-// import RefreshToken from "../../hooks/useRefreshToken";
+import RefreshToken from "../../hooks/useRefreshToken";
+import axios from "axios";
 
 function User() {
   const [tab, setTab] = useState<number>(1);
   const [infor, setInfor] = useState<any>();
   const api = useInterceptors();
   const navigate = useNavigate();
+  const refresh = RefreshToken();
   const accessToken = localStorage.getItem("AccessToken");
 
   useEffect(() => {
-    const controller = new AbortController();
+    console.log(accessToken);
     const getUser = async () => {
       try {
-        const response = await api.get("http://localhost:5000/user", {
+        const response = await axios.get("http://localhost:5000/username", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-          signal: controller.signal,
         });
         setInfor(response.data);
+        console.log(response);
       } catch (err) {
         console.log(err);
       }
     };
     getUser();
-    return () => {
-      controller.abort();
-    };
   }, [accessToken]);
 
   useEffect(() => {
@@ -46,6 +45,7 @@ function User() {
     <>
       <div className="max-w-[1200px] mx-auto mt-[140px] px-3">
         <h1 className="text-[29px] font-bold mb-5">Profile </h1>
+        <p onClick={refresh}>Refresh Token</p>
         <div className="flex justify-between">
           <div className="w-[380px] h-[450px] bg-F7F7F7">
             <div
