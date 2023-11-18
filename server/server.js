@@ -25,23 +25,10 @@ app.use((req, res, next) => {
 });
 app.use(cookieParser());
 
-let refreshTokens = [];
-
 const users = [
   {
-    id: 1,
     username: "admin",
     password: "admin",
-  },
-  {
-    id: 2,
-    username: "chachtien",
-    password: "tien2004",
-  },
-  {
-    id: 3,
-    username: "tienlevi",
-    password: "chuling",
   },
 ];
 
@@ -58,43 +45,22 @@ function authenticateToken(req, res, next) {
     next();
   });
 }
+app.post("/refresh", async (req, res) => {
+  const { refreshToken } = req.body;
 
-const generateAccessToken = (user) => {
-  return jwt.sign({ user }, process.env.JWT_ACCESS_SECRET, {
-    expiresIn: "60s",
-  });
-};
+  try {
+    const user = await UserModel.findOne({ refreshToken });
 
-const generateNewAccessToken = (user) => {
-  return jwt.sign({ user }, process.env.JWT_ACCESS_SECRET);
-};
-
-const generateRefreshToken = (user) => {
-  return jwt.sign({ user }, process.env.JWT_REFRESH_SECRET);
-};
-
-app.post("/refresh", (req, res) => {
-  const token = req.body.token;
-  if (!token) return res.status(401).json("You are not authenticated!");
-  if (!refreshTokens.includes(token)) {
-    return res.status(403).json("Refresh token is not valid!");
-  }
-
-  console.log(token);
-  jwt.verify(token, process.env.JWT_REFRESH_SECRET, (err, user) => {
-    err && console.log(err);
-    refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
-    const newAccessToken = generateNewAccessToken(user);
-    const refreshToken = generateRefreshToken(user);
-    console.log(refreshToken);
-
-    refreshTokens.push(refreshToken);
+    const accessToken = jwt.sign({ user }, process.env.JWT_ACCESS_SECRET);
+    console.log(accessToken);
 
     res.status(200).json({
-      accessToken: newAccessToken,
-      refreshToken: refreshToken,
+      accessToken: accessToken,
     });
-  });
+  } catch (error) {
+    console.error(error);
+    return res.status(401).json({ error: "Invalid refresh token" });
+  }
 });
 
 app.post("/login", async (req, res) => {
@@ -110,7 +76,7 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Invalid username or password" });
     }
     const accessToken = jwt.sign({ username }, process.env.JWT_ACCESS_SECRET, {
-      expiresIn: "15m",
+      expiresIn: "25s",
     });
     const refreshToken = jwt.sign({ username }, process.env.JWT_REFRESH_SECRET);
     return res.json({
@@ -125,51 +91,11 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// app.post("/login", async (req, res) => {
-//   const { username, password } = req.body;
-//   const user = await UserModel.findOne({
-//     username,
-//     password,
-//   });
-//   try {
-//     const refreshToken = generateRefreshToken(user);
-//     const accessToken = generateAccessToken(user);
-//     refreshTokens.push(refreshToken);
-//     res.cookie("AccessToken", accessToken, {
-//       httpOnly: true,
-//       secure: true,
-//       path: "/",
-//       maxAge: 15000,
-//     });
-//     if (user) {
-//       res.json({
-//         username: username,
-//         password: password,
-//         accessToken,
-//         refreshToken,
-//       });
-//       res.status(200).json("Login success");
-//     } else {
-//       res.status(400).json("Username or password incorrect!");
-//     }
-//   } catch (err) {
-//     res.status(500).json({ message: "Internal server error" });
-//   }
-//   return user;
-// });
-
-app.get("/user", authenticateToken, (req, res) => {
-  const user = users.find((u) => u.username === req.data.username);
-  res.status(200).json(user);
-});
-
-app.get("/username", async (req, res) => {
-  const { authorization } = req.headers;
-
+app.get("/username", authenticateToken, async (req, res) => {
+  const { username } = req.user;
   try {
-    const token = authorization.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-    const user = await UserModel.findOne({ username: decoded.username });
+    const user = await UserModel.findOne({ username });
+    console.log(user);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
