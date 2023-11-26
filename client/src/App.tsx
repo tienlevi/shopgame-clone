@@ -11,12 +11,11 @@ import Admin from "./Pages/AdminPage";
 import Profile from "./Pages/Profile";
 import Search from "./Pages/Search";
 import About from "./Pages/About";
-import EAGames from "./Pages/EAGames";
-import Steam from "./Pages/Steam";
+import Category from "./Pages/Category";
 
 function App() {
   return (
-    <>
+    <div className="App">
       <ScrollToTop />
       <Onload />
       <Routes>
@@ -30,10 +29,9 @@ function App() {
         <Route path="/Profile" element={<Profile />} />
         <Route path="/Search" element={<Search />} />
         <Route path="/About" element={<About />} />
-        <Route path="/EAGames" element={<EAGames />} />
-        <Route path="/Steam" element={<Steam />} />
+        <Route path="/Category" element={<Category />} />
       </Routes>
-    </>
+    </div>
   );
 }
 

@@ -4,7 +4,7 @@ import { FaUser, FaBars } from "react-icons/fa";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import Menu from "./MenuResponsive/Menu";
+import Menu from "./Menu";
 
 function Header() {
   const [scroll, setScroll] = useState<boolean>(true);
@@ -13,7 +13,6 @@ function Header() {
   const [search, setSearch] = useState<string>("");
   const body = document.querySelector("body");
   const accessToken = localStorage.getItem("AccessToken");
-  const admin = localStorage.getItem("Admin");
 
   useEffect(() => {
     const ScrollMouse = () => {
@@ -98,11 +97,6 @@ function Header() {
               <FaUser className="h-[35px] pr-2 text-white text-[30px] rounded-r-sm cursor-pointer" />
               <p className="text-[19px] text-white">Profile</p>
             </Link>
-          ) : admin ? (
-            <Link className="flex items-center" to="/Admin">
-              <FaUser className="h-[35px] pr-2 text-white text-[30px] rounded-r-sm cursor-pointer" />
-              <p className="text-[19px] text-white">Admin</p>
-            </Link>
           ) : (
             <Link className="flex items-center" to="/Login">
               <FaUser className="h-[35px] pr-2 text-white text-[30px] rounded-r-sm cursor-pointer" />
@@ -122,7 +116,7 @@ function Header() {
               onClick={openMenu}
               className="text-[24px] text-white cursor-pointer"
             />
-            <Menu active={toggle} onClose={closeMenu} />
+            <Menu active={toggle} closeMenu={closeMenu} />
           </div>
           <Link to="/">
             <img
@@ -143,13 +137,8 @@ function Header() {
               </Link>
             </li>
             <li>
-              <Link className="px-3 hover:underline" to="">
-                EA Games
-              </Link>
-            </li>
-            <li>
-              <Link className="px-3 hover:underline" to="">
-                Game Steam
+              <Link className="px-3 hover:underline" to="/Category?cate=">
+                Category
               </Link>
             </li>
             <li>

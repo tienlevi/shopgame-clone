@@ -34,7 +34,7 @@ const users = [
 
 function authenticateToken(req, res, next) {
   const authorizationHeader = req.headers["authorization"];
-  const token = authorizationHeader.split(" ")[1];
+  const token = authorizationHeader && authorizationHeader.split(" ")[1];
   if (!token) {
     res.sendStatus(401);
   }
@@ -45,21 +45,23 @@ function authenticateToken(req, res, next) {
     next();
   });
 }
+
 app.post("/refresh", async (req, res) => {
   const { refreshToken } = req.body;
-
   try {
     const user = await UserModel.findOne({ refreshToken });
+    if (!user) {
+      return res.status(401).json({ error: "Invalid refresh token" });
+    }
+    const accessToken = jwt.sign(
+      { username: user.username },
+      process.env.JWT_ACCESS_SECRET
+    );
 
-    const accessToken = jwt.sign({ user }, process.env.JWT_ACCESS_SECRET);
-    console.log(accessToken);
-
-    res.status(200).json({
-      accessToken: accessToken,
-    });
+    return res.status(200).json({ accessToken });
   } catch (error) {
     console.error(error);
-    return res.status(401).json({ error: "Invalid refresh token" });
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -75,10 +77,19 @@ app.post("/login", async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid username or password" });
     }
-    const accessToken = jwt.sign({ username }, process.env.JWT_ACCESS_SECRET, {
-      expiresIn: "25s",
-    });
-    const refreshToken = jwt.sign({ username }, process.env.JWT_REFRESH_SECRET);
+    const accessToken = jwt.sign(
+      { username: user.username },
+      process.env.JWT_ACCESS_SECRET,
+      {
+        expiresIn: "25s",
+      }
+    );
+    const refreshToken = jwt.sign(
+      { username: user.username },
+      process.env.JWT_REFRESH_SECRET
+    );
+    user.refreshToken = refreshToken;
+    await user.save();
     return res.json({
       username: username,
       password: password,
@@ -91,7 +102,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/username", authenticateToken, async (req, res) => {
+app.get("/user", authenticateToken, async (req, res) => {
   const { username } = req.user;
   try {
     const user = await UserModel.findOne({ username });
@@ -107,11 +118,9 @@ app.get("/username", authenticateToken, async (req, res) => {
 });
 
 app.post("/signup", async (req, res) => {
-  // const accessToken = generateAccessToken(user);
   try {
     const { username, email, password, tel } = req.body;
     const refreshToken = generateRefreshToken(username);
-    refreshTokens.push(refreshToken);
     const newUser = new UserModel({
       username,
       password,

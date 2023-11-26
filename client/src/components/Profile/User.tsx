@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import useInterceptors from "../../hooks/useInterceptors";
 import { FaUser, FaInfo, FaShieldAlt, FaPaperclip } from "react-icons/fa";
 import RefreshToken from "../../hooks/useRefreshToken";
-import axios from "axios";
 
 function User() {
   const [tab, setTab] = useState<number>(1);
@@ -17,22 +16,30 @@ function User() {
     console.log(accessToken);
     const getUser = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/username", {
+        const response = await api.get("http://localhost:5000/user", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
+          withCredentials: true,
         });
-        setInfor(response.data);
-        console.log(response);
+        setInfor(response.data.user);
+        console.log(response.data.user);
       } catch (err) {
+        // navigate("/");
+        // localStorage.removeItem("RefreshToken");
+        // localStorage.removeItem("AccessToken");
         console.log(err);
       }
     };
     getUser();
-  }, [accessToken]);
+  }, [accessToken, navigate]);
 
   useEffect(() => {
-    accessToken === "" && navigate("/SignIn");
+    if (accessToken === "") {
+      navigate("/");
+      localStorage.removeItem("RefreshToken");
+      localStorage.removeItem("AccessToken");
+    }
   }, [accessToken, navigate]);
 
   const handleLogout = () => {
@@ -130,6 +137,10 @@ function User() {
               <div className="my-1">
                 <h1 className="text-[21px] font-bold">Account</h1>
                 <p className="h-[40px] text-[18px] my-2">{infor?.username}</p>
+              </div>
+              <div className="my-1">
+                <h1 className="text-[21px] font-bold">Email</h1>
+                <p className="h-[40px] text-[18px] my-2">{infor?.email}</p>
               </div>
               <div className="my-1">
                 <h1 className="text-[21px] font-bold">Name</h1>

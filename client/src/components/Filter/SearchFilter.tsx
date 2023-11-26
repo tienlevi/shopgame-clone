@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ProductItems from "../../Items/ProductItems";
 
 function SearchFilter() {
-  const param = new URLSearchParams(window.location.search);
+  const location = useLocation();
+  const param = new URLSearchParams(location.search);
   const search = param.get("name");
   let filter = [];
 

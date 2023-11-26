@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button, ThemeProvider } from "@mui/material";
 import theme from "../theme/theme";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+
 interface addCart {
   id?: number;
   name?: string;
   img?: string;
   price?: number;
   origin?: string;
-  activeCart?: boolean;
-  add?: () => void;
+  active?: boolean;
 }
 
-function AddCart({ id, name, img, price, origin }: addCart) {
+function AddCart({ id, name, img, price, origin, active }: addCart) {
   const [product, setProduct] = useState<addCart[]>([]);
   const [isCartAdded, setIsCartAdded] = useState<boolean>(false);
   const added = product.find((item) => item.id === id);
@@ -22,26 +22,26 @@ function AddCart({ id, name, img, price, origin }: addCart) {
     saved && setProduct(JSON.parse(saved));
   }, []);
 
-  const update: addCart = {
-    id: id,
-    name: name,
-    img: img,
-    price: price,
-    origin: origin,
-  };
   useEffect(() => {
     added && setIsCartAdded(true);
   }, [added]);
 
-  const handleAddProduct = () => {
-    if (added) return;
+  const handleAddProduct = useCallback(() => {
+    const update: addCart = {
+      id: id,
+      name: name,
+      img: img,
+      price: price,
+      origin: origin,
+      active: active,
+    };
     setProduct((prev: any) => {
       const list = [...prev, update];
       localStorage.setItem("ProductName", JSON.stringify(list));
       setIsCartAdded(true);
       return list;
     });
-  };
+  }, [id, img, name, origin, price]);
 
   return (
     <>

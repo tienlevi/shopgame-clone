@@ -1,53 +1,23 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Stack, Button, ThemeProvider } from "@mui/material";
 import theme from "../theme/theme";
 import ProductItems from "../../Items/ProductItems";
 import AddCart from "./AddCart";
-import ToastSuccess from "./Toast/ToastSuccess";
-
-interface Cart {
-  id?: number;
-  name?: string;
-  img?: string;
-  price?: number;
-  origin?: string;
-}
 
 function ProductName() {
   const [toast, setToast] = useState<boolean>(false);
   const { id } = useParams<string>();
   const num = Number(id);
   const thisProduct = ProductItems.find((item) => item.id === num);
-  const [cart, setCart] = useState<Cart[]>([]);
-  const added = cart.find((item) => item.id === num);
 
-  useEffect(() => {
-    const saved = localStorage.getItem("ProductName");
-    if (saved) {
-      setCart(JSON.parse(saved) || []);
-    }
-  }, []);
-
-  const handleButton = useCallback(() => {
+  const handleButton = () => {
     setToast(true);
-    if (added) {
-      return false;
-    } else {
-      return true;
-    }
-  }, [added]);
-
-  const closeToast = () => {
-    setToast(!toast);
   };
 
   return (
     <>
       <ThemeProvider theme={theme}>
-        <div className="fixed top-[10%] right-[5%] z-30">
-          {toast && <ToastSuccess activeToast={toast} onClose={closeToast} />}
-        </div>
         <div className="max-w-[1200px] mx-auto mt-[150px] xl:w-[1000px] lg:w-[720px] md:w-[500px]">
           <div className="flex md:flex-col">
             <img
@@ -93,7 +63,7 @@ function ProductName() {
                     img={thisProduct?.img}
                     price={thisProduct?.price}
                     origin={thisProduct?.origin}
-                    activeCart={!toast}
+                    active={!toast}
                   />
                 </div>
               </Stack>

@@ -36,22 +36,16 @@ function Login() {
           withCredentials: true,
         }
       );
-      const admin = response?.data?.username;
       const user = response?.data?.username;
       const pass = response?.data?.password;
       const accessToken = response?.data?.accessToken;
       const refreshToken = response?.data?.refreshToken;
-      if (admin === "admin") {
-        navigate("/Admin", { replace: true });
-        localStorage.setItem("Admin", admin);
-      } else {
-        navigate("/Profile");
-        console.log({ user, pass, accessToken, refreshToken });
-        localStorage.setItem("RefreshToken", refreshToken);
-        localStorage.setItem("AccessToken", accessToken);
-      }
+      navigate("/Profile");
+      console.log({ user, pass, accessToken, refreshToken });
+      localStorage.setItem("RefreshToken", refreshToken);
+      localStorage.setItem("AccessToken", accessToken);
     } catch (err: any) {
-      if (err.response?.status === 400) {
+      if (err.response?.status === 401) {
         setError("user not found");
       }
       if (err.response?.status === 403) {
