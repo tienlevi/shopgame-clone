@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ProductItems from "../../Items/ProductItems";
 
@@ -5,9 +6,9 @@ function SearchFilter() {
   const location = useLocation();
   const param = new URLSearchParams(location.search);
   const search = param.get("name");
-  let filter = [];
+  const filter = useRef<any>([]);
 
-  filter = ProductItems.filter((item: any) =>
+  filter.current = ProductItems.filter((item: any) =>
     item.name.toLowerCase().includes(search?.toLowerCase())
   );
 
@@ -17,7 +18,7 @@ function SearchFilter() {
         <h1 className="text-[30px] font-bold ml-[8px]">Search: {search}</h1>
         <div className="flex flex-wrap">
           {filter &&
-            filter.map((product: any, index: number) => (
+            filter.current.map((product: any, index: number) => (
               <div key={index} className="mx-[12px] my-[10px]">
                 <Link key={index} to={`./ProductDetail/${product.id}`}>
                   <img
@@ -34,7 +35,7 @@ function SearchFilter() {
                 </Link>
               </div>
             ))}
-          {filter.length <= 0 && <h1>No product found</h1>}
+          {filter.current.length <= 0 && <h1>No product found</h1>}
         </div>
       </div>
     </>
