@@ -1,22 +1,77 @@
-import { useState } from "react";
+import { useState, useEffect, useLayoutEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { Stack, Button, ThemeProvider } from "@mui/material";
 import theme from "../theme/theme";
 import ProductItems from "../../Items/ProductItems";
 import AddCart from "./AddCart";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+interface ProductId {
+  id?: number;
+  name?: string;
+  img?: string;
+  price?: number;
+  origin?: string;
+}
 
 function ProductName() {
-  const [toast, setToast] = useState<boolean>(false);
   const { id } = useParams<string>();
   const num = Number(id);
   const thisProduct = ProductItems.find((item) => item.id === num);
+  const [product, setProduct] = useState<ProductId[]>([]);
+  const [isCartAdded, setIsCartAdded] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const handleButton = () => {
-    setToast(true);
-  };
+  useEffect(() => {
+    const saved = localStorage.getItem("ProductName");
+    saved && setProduct(JSON.parse(saved));
+    setLoading(false);
+  }, []);
+
+  useLayoutEffect(() => {
+    const existProduct = product.find((item) => item.id === thisProduct?.id);
+    existProduct && setIsCartAdded(true);
+  }, [product, thisProduct?.id]);
+
+  const handleButton = useCallback(() => {
+    const update: ProductId = {
+      id: thisProduct?.id,
+      name: thisProduct?.name,
+      img: thisProduct?.img,
+      price: thisProduct?.price,
+      origin: thisProduct?.origin,
+    };
+    setProduct((prev: any) => {
+      const list = [...prev, update];
+      localStorage.setItem("ProductName", JSON.stringify(list));
+      setIsCartAdded(true);
+      return list;
+    });
+    toast.success("Add success");
+    return update;
+  }, [
+    thisProduct?.id,
+    thisProduct?.img,
+    thisProduct?.name,
+    thisProduct?.origin,
+    thisProduct?.price,
+  ]);
+
+  if (loading) {
+    return <>Loading...</>;
+  }
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        newestOnTop={false}
+        theme="colored"
+        pauseOnHover={false}
+        style={{ width: "300px", height: "50px" }}
+      />
       <ThemeProvider theme={theme}>
         <div className="max-w-[1200px] mx-auto mt-[150px] xl:w-[1000px] lg:w-[720px] md:w-[500px]">
           <div className="flex md:flex-col">
@@ -56,16 +111,30 @@ function ProductName() {
                 >
                   Buy
                 </Button>
-                <div onClick={handleButton}>
+                {isCartAdded ? (
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      width: {
+                        xl: "250px",
+                        lg: "250px",
+                        md: "250px",
+                        sm: "100%",
+                      },
+                    }}
+                  >
+                    You added this product
+                  </Button>
+                ) : (
                   <AddCart
                     id={thisProduct?.id}
                     name={thisProduct?.name}
                     img={thisProduct?.img}
                     price={thisProduct?.price}
                     origin={thisProduct?.origin}
-                    active={!toast}
+                    onAddToCart={handleButton}
                   />
-                </div>
+                )}
               </Stack>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import ToastRemove from "../Product/Toast/ToastRemove";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import RemoveCart from "./RemoveCart";
 
 interface myCart {
@@ -10,38 +11,17 @@ interface myCart {
   origin: string;
 }
 
-interface Toasts {
-  id: number;
-}
-
 function MyCart() {
   const [cart, setCart] = useState<myCart[]>([]);
-  const [toast, setToast] = useState<boolean>(false);
-  const [childrenToast, setChildrenToast] = useState<Toasts[]>([]);
 
-  const Remove = useCallback(
-    (index: number) => {
-      setCart((items) => {
-        const remove = items.filter((item) => item.id !== index);
-        localStorage.setItem("ProductName", JSON.stringify(remove));
-        return remove;
-      });
-      const spamToast: Toasts = {
-        id: index,
-      };
-      setChildrenToast([...childrenToast, spamToast]);
-      setTimeout(() => {
-        setChildrenToast((items: any) => items.filter((item: any) => item.id));
-      }, 5000);
-      setToast(true);
-    },
-    [childrenToast]
-  );
-
-  const closeToast = (index: number) => {
-    const dismissToast = childrenToast.filter((item) => item.id !== index);
-    setChildrenToast(dismissToast);
-  };
+  const Remove = useCallback((index: number) => {
+    toast.error("Remove success");
+    setCart((items) => {
+      const remove = items.filter((item) => item.id !== index);
+      localStorage.setItem("ProductName", JSON.stringify(remove));
+      return remove;
+    });
+  }, []);
 
   const total = useMemo(() => {
     return cart.reduce((acc: number, cash) => acc + cash.price, 0);
@@ -49,22 +29,19 @@ function MyCart() {
 
   useEffect(() => {
     const value = localStorage.getItem("ProductName");
-    if (value) {
-      setCart(JSON.parse(value));
-    }
+    value && setCart(JSON.parse(value));
   }, []);
 
   return (
     <>
-      <div className="fixed top-[10%] right-[5%] z-30">
-        {childrenToast.map((item: any, index: number) => (
-          <ToastRemove
-            key={index}
-            activeToast={toast}
-            onClose={() => closeToast(item.id)}
-          />
-        ))}
-      </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        newestOnTop={false}
+        theme="colored"
+        pauseOnHover={false}
+        style={{ width: "300px", height: "50px" }}
+      />
       <div className="max-w-[1200px] mt-[130px] mx-auto xl:w-[1000px] lg:w-[720px] md:w-[500px]">
         {cart && <h1 className="text-[29px] font-bold">My cart</h1>}
         {cart &&
