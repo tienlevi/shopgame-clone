@@ -1,7 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
 import ProductItems from "../../Items/ProductItems";
 import AddCartHome from "./AddCartHome";
 import { ToastContainer, toast } from "react-toastify";
@@ -79,9 +77,6 @@ function Products() {
                   origin={product.origin}
                   onAddToCart={handleAddToCart}
                 />
-                <div className="flex items-center justify-center bg-white my-2 w-[45px] h-[45px] rounded-[45px] text-black duration-300 hover:bg-black hover:text-white">
-                  <FaSearch className="text-[22px]" />
-                </div>
               </div>
               <div className="w-[220px]">
                 <h2 className="text-[20px] font-bold">{product.name}</h2>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useLayoutEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { Stack, Button, ThemeProvider } from "@mui/material";
 import theme from "../theme/theme";
@@ -21,15 +21,13 @@ function ProductName() {
   const thisProduct = ProductItems.find((item) => item.id === num);
   const [product, setProduct] = useState<ProductId[]>([]);
   const [isCartAdded, setIsCartAdded] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const saved = localStorage.getItem("ProductName");
     saved && setProduct(JSON.parse(saved));
-    setLoading(false);
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const existProduct = product.find((item) => item.id === thisProduct?.id);
     existProduct && setIsCartAdded(true);
   }, [product, thisProduct?.id]);
@@ -57,10 +55,6 @@ function ProductName() {
     thisProduct?.origin,
     thisProduct?.price,
   ]);
-
-  if (loading) {
-    return <>Loading...</>;
-  }
 
   return (
     <>

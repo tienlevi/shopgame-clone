@@ -9,6 +9,7 @@ import {
   FaCreditCard,
 } from "react-icons/fa";
 import RefreshToken from "../../hooks/useRefreshToken";
+// import axios from "axios";
 
 const tabViews = [
   {
@@ -63,31 +64,37 @@ const tabViewInformation = [
 
 function User() {
   const [tab, setTab] = useState<number>(1);
-  const [infor, setInfor] = useState<any>();
+  const [infor, setInfor] = useState<any>(null);
+
   const api = useInterceptors();
   const navigate = useNavigate();
   const refresh = RefreshToken();
   const accessToken = localStorage.getItem("AccessToken");
 
+  const getUser = async (token: any) => {
+    try {
+      const response = await api.get("http://localhost:5000/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      });
+      const user = response.data.user;
+      setInfor(user);
+      console.log(user);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleRefreshToken = () => {
+    refresh();
+    getUser(accessToken);
+  };
+
   useEffect(() => {
+    getUser(accessToken);
     console.log(accessToken);
-    const getUser = async () => {
-      try {
-        const response = await api.get("http://localhost:5000/user", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-          withCredentials: true,
-        });
-        setInfor(response.data.user);
-        console.log(response.data.user);
-      } catch (err) {
-        navigate("/");
-        console.log(err);
-      }
-    };
-    getUser();
-  }, [accessToken, navigate]);
+  }, [accessToken]);
 
   useEffect(() => {
     if (accessToken === "") {
@@ -107,7 +114,7 @@ function User() {
     <>
       <div className="max-w-[1200px] mx-auto mt-[140px] px-3">
         <h1 className="text-[29px] font-bold mb-5">Profile </h1>
-        <p onClick={refresh}>Refresh Token</p>
+        <p onClick={handleRefreshToken}>Refresh Token</p>
         <div className="flex justify-between">
           <div className="w-[380px] h-[450px] bg-F7F7F7">
             {tabViews.map((item) => (
@@ -151,7 +158,7 @@ function User() {
               </div>
               <div className="my-1">
                 <h1 className="text-[21px] font-bold">Phone number</h1>
-                <p className="h-[40px] text-[18px] my-2">1234567890</p>
+                <p className="h-[40px] text-[18px] my-2">{infor?.tel}</p>
               </div>
             </div>
           </div>
