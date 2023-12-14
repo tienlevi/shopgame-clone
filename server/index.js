@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import morgan from "morgan";
 import bcrypt from "bcrypt";
 import cookieParser from "cookie-parser";
 import UserModel from "./model/Users.js";
@@ -10,6 +11,7 @@ const app = express();
 const port = 5000;
 Connect();
 dotenv.config();
+app.use(morgan("dev"));
 app.use(express.json());
 app.use(
   cors({
@@ -24,13 +26,6 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cookieParser());
-
-const users = [
-  {
-    username: "admin",
-    password: "admin",
-  },
-];
 
 function authenticateToken(req, res, next) {
   const authorizationHeader = req.headers["authorization"];
@@ -50,6 +45,7 @@ app.post("/refresh", async (req, res) => {
   const { refreshToken } = req.body;
   try {
     const user = await UserModel.findOne({ refreshToken });
+    // console.log(user);
     if (!user) {
       return res.status(401).json({ error: "Invalid refresh token" });
     }
@@ -57,8 +53,8 @@ app.post("/refresh", async (req, res) => {
       { username: user.username },
       process.env.JWT_ACCESS_SECRET
     );
-
-    return res.status(200).json({ accessToken });
+    // res.cookie("accessToken",accessToken)
+    return res.status(200).json({ accessToken: accessToken });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
@@ -74,6 +70,7 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Invalid username or password" });
     }
     const isPasswordValid = bcrypt.compare(password, user.password);
+    console.log(user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid username or password" });
     }
@@ -81,7 +78,7 @@ app.post("/login", async (req, res) => {
       { username: user.username },
       process.env.JWT_ACCESS_SECRET,
       {
-        expiresIn: "25s",
+        expiresIn: "10s",
       }
     );
     const refreshToken = jwt.sign(
@@ -90,7 +87,8 @@ app.post("/login", async (req, res) => {
     );
     user.refreshToken = refreshToken;
     await user.save();
-    return res.json({
+
+    return res.status(200).json({
       username: username,
       password: password,
       accessToken,
@@ -104,18 +102,23 @@ app.post("/login", async (req, res) => {
 
 app.get("/user", authenticateToken, async (req, res) => {
   const { username } = req.user;
+
   try {
     const user = await UserModel.findOne({ username });
-    console.log(user);
+    // console.log(user);
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(403).json({ error: "User not found" });
     }
-    return res.json({ user });
+    return res.status(200).json({ user });
   } catch (error) {
     console.error(error);
     return res.status(401).json({ error: "Unauthorized" });
   }
 });
+
+// app.post("/logout", (req, res) => {
+//   res.status(200).json({ message: "Logout successful" });
+// });
 
 app.post("/signup", async (req, res) => {
   try {
