@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
+import useCart from "../../hooks/useCart";
 import { Stack, Button, ThemeProvider } from "@mui/material";
 import theme from "../theme/theme";
 import ProductItems from "../../Items/ProductItems";
-import AddCart from "./AddCart";
+import AddCart from "../Cart/AddCart";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -21,9 +22,10 @@ function ProductName() {
   const thisProduct = ProductItems.find((item) => item.id === num);
   const [product, setProduct] = useState<ProductId[]>([]);
   const [isCartAdded, setIsCartAdded] = useState<boolean>(false);
+  const { addToCart }: any = useCart();
 
   useEffect(() => {
-    const saved = localStorage.getItem("ProductName");
+    const saved = localStorage.getItem("CartItems");
     saved && setProduct(JSON.parse(saved));
   }, []);
 
@@ -40,9 +42,10 @@ function ProductName() {
       price: thisProduct?.price,
       origin: thisProduct?.origin,
     };
+    addToCart(update);
     setProduct((prev: any) => {
       const list = [...prev, update];
-      localStorage.setItem("ProductName", JSON.stringify(list));
+      localStorage.setItem("CartItems", JSON.stringify(list));
       setIsCartAdded(true);
       return list;
     });

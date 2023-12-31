@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import RemoveCart from "./RemoveCart";
 import { Button } from "@mui/material";
+import useCart from "../../hooks/useCart";
 
 interface myCart {
   id: number;
@@ -14,20 +15,25 @@ interface myCart {
 
 function MyCart() {
   const [cart, setCart] = useState<myCart[]>([]);
+  const { removeCart }: any = useCart();
 
   useEffect(() => {
-    const value = localStorage.getItem("ProductName");
+    const value = localStorage.getItem("CartItems");
     value && setCart(JSON.parse(value));
   }, []);
 
-  const Remove = useCallback((index: number) => {
-    toast.error("Remove success");
-    setCart((items) => {
-      const remove = items.filter((item) => item.id !== index);
-      localStorage.setItem("ProductName", JSON.stringify(remove));
-      return remove;
-    });
-  }, []);
+  const Remove = useCallback(
+    (index: number) => {
+      toast.error("Remove success");
+      setCart((items) => {
+        const remove = items.filter((item) => item.id !== index);
+        localStorage.setItem("CartItems", JSON.stringify(remove));
+        return remove;
+      });
+      removeCart(index);
+    },
+    [removeCart]
+  );
 
   const total = useMemo(() => {
     return cart.reduce((acc: number, cash) => acc + cash.price, 0);

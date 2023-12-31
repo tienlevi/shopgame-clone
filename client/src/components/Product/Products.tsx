@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import ProductItems from "../../Items/ProductItems";
-import AddCartHome from "./AddCartHome";
+import AddCartHome from "../Cart/AddCartHome";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useCart from "../../hooks/useCart";
 
 interface ProductId {
   id?: number;
@@ -15,29 +16,35 @@ interface ProductId {
 
 function Products() {
   const [product, setProduct] = useState<ProductId[]>([]);
+  const { addToCart }: any = useCart();
 
   useEffect(() => {
     const saved = localStorage.getItem("ProductName");
     saved && setProduct(JSON.parse(saved));
   }, []);
 
-  const handleAddToCart = useCallback(
-    (pro: ProductId) => {
-      const existProduct = product.find((item) => item.id === pro.id);
-      if (existProduct) {
-        toast.warning("You added this product");
-        return false;
-      } else {
-        setProduct((prev: any) => {
-          const list = [...prev, pro];
-          localStorage.setItem("ProductName", JSON.stringify(list));
-          return list;
-        });
-        toast.success("Add success");
-      }
-    },
-    [product]
-  );
+  const handleAddToCart = (pro: ProductId) => {
+    const update = {
+      id: pro.id,
+      name: pro.name,
+      img: pro.img,
+      price: pro.price,
+      origin: pro.origin,
+    };
+    addToCart(update);
+    const existProduct = product.find((item) => item.id === pro.id);
+    if (existProduct) {
+      toast.warning("You added this product");
+      return false;
+    } else {
+      setProduct((prev: any) => {
+        const list = [...prev, pro];
+        localStorage.setItem("CartItems", JSON.stringify(list));
+        return list;
+      });
+      toast.success("Add success");
+    }
+  };
 
   return (
     <>

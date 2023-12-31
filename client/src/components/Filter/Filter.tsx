@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AddCartHome from "../Product/AddCartHome";
+import AddCartHome from "../Cart/AddCartHome";
 
 interface FilterCategory {
   items: any;
@@ -38,7 +38,7 @@ function Filter({ items, selectCategory, onSelectCategory }: FilterCategory) {
     : items;
 
   useEffect(() => {
-    const saved = localStorage.getItem("ProductName");
+    const saved = localStorage.getItem("CartItems");
     saved && setProduct(JSON.parse(saved));
   }, []);
 
@@ -51,7 +51,7 @@ function Filter({ items, selectCategory, onSelectCategory }: FilterCategory) {
       } else {
         setProduct((prev: any) => {
           const list = [...prev, pro];
-          localStorage.setItem("ProductName", JSON.stringify(list));
+          localStorage.setItem("CartItems", JSON.stringify(list));
           return list;
         });
         toast.success("Add success");

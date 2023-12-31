@@ -13,27 +13,30 @@ import Search from "./Pages/Search";
 import About from "./Pages/About";
 import Category from "./Pages/Category";
 import Auth from "./Auth/useAuth";
+import CartProvider from "./components/Cart/CartProvider";
 
 function App() {
   return (
     <div className="App">
-      <ScrollToTop />
-      <Onload />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="/ProductDetail/:id" element={<ProductDetail />} />
-        <Route path="/Cart" element={<Cart />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/SignUp" element={<SignUp />} />
-        <Route path="/Admin" element={<Admin />} />
-        <Route element={<Auth />}>
-          <Route path="/Profile" element={<Profile />} />
-        </Route>
-        <Route path="/Search" element={<Search />} />
-        <Route path="/About" element={<About />} />
-        <Route path="/Category" element={<Category />} />
-      </Routes>
+      <CartProvider>
+        <ScrollToTop />
+        <Onload />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/ProductDetail/:id" element={<ProductDetail />} />
+          <Route path="/Cart" element={<Cart />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/SignUp" element={<SignUp />} />
+          <Route path="/Admin" element={<Admin />} />
+          <Route element={<Auth />}>
+            <Route path="/Profile" element={<Profile />} />
+          </Route>
+          <Route path="/Search" element={<Search />} />
+          <Route path="/About" element={<About />} />
+          <Route path="/Category" element={<Category />} />
+        </Routes>
+      </CartProvider>
     </div>
   );
 }
