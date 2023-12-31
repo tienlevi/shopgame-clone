@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Filter from "../components/Filter/Filter";
@@ -15,10 +14,6 @@ function Category() {
     window.history.pushState(null, "", newURL);
     window.location.reload();
   };
-
-  useEffect(() => {
-    document.title = "Category";
-  }, []);
 
   return (
     <>

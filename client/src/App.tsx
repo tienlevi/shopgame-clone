@@ -12,6 +12,7 @@ import Profile from "./Pages/Profile";
 import Search from "./Pages/Search";
 import About from "./Pages/About";
 import Category from "./Pages/Category";
+import Auth from "./Auth/useAuth";
 
 function App() {
   return (
@@ -26,7 +27,9 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/Admin" element={<Admin />} />
-        <Route path="/Profile" element={<Profile />} />
+        <Route element={<Auth />}>
+          <Route path="/Profile" element={<Profile />} />
+        </Route>
         <Route path="/Search" element={<Search />} />
         <Route path="/About" element={<About />} />
         <Route path="/Category" element={<Category />} />

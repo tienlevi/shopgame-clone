@@ -4,7 +4,6 @@ interface Item {
   img: string;
   price: number;
   origin: string;
-  active: boolean;
 }
 
 const productData: Item[] = [
@@ -14,7 +13,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/Remnant-II.jpg"),
     price: 50,
     origin: "Game Steam",
-    active: true,
   },
   {
     id: 2,
@@ -22,7 +20,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/dyling-light-2.jpg"),
     price: 60,
     origin: "Game Steam",
-    active: true,
   },
   {
     id: 3,
@@ -30,7 +27,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/fifa-24.jpg"),
     price: 60,
     origin: "EA Games",
-    active: true,
   },
   {
     id: 4,
@@ -38,7 +34,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/Mortal-Kombat-1-key-art.png"),
     price: 60,
     origin: "Game Steam",
-    active: true,
   },
   {
     id: 5,
@@ -46,7 +41,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/Cities_Skylines_2_Keyart-2.jpg"),
     price: 20,
     origin: "Game Steam",
-    active: true,
   },
   {
     id: 6,
@@ -54,7 +48,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/bf4.png"),
     price: 20,
     origin: "EA Games",
-    active: true,
   },
   {
     id: 7,
@@ -62,7 +55,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/fifa-23.png"),
     price: 60,
     origin: "EA Games",
-    active: true,
   },
   {
     id: 8,
@@ -70,7 +62,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/Sims4_Rebrand.png"),
     price: 30,
     origin: "EA Games",
-    active: true,
   },
   {
     id: 9,
@@ -78,7 +69,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/HD-wallpaper-battlefield-2042-battle-trooper-verses.jpg"),
     price: 40,
     origin: "EA Games",
-    active: true,
   },
   {
     id: 10,
@@ -86,7 +76,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/EGS_DeadSpace_MotiveStudio_S2_1200x1600.jpg"),
     price: 45,
     origin: "EA Games",
-    active: true,
   },
   {
     id: 11,
@@ -94,7 +83,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/Call_of_Duty_Modern_Warfare_II_Key_Art.jpg"),
     price: 60,
     origin: "Game Steam",
-    active: true,
   },
   {
     id: 12,
@@ -102,7 +90,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/The-Witcher3.jpg"),
     price: 30,
     origin: "Game Steam",
-    active: true,
   },
   {
     id: 13,
@@ -110,7 +97,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/Grand_Theft_Auto_V.png"),
     price: 20,
     origin: "Game Steam",
-    active: true,
   },
   {
     id: 14,
@@ -118,7 +104,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/Mortal_Kombat_11_cover_art.png"),
     price: 25,
     origin: "Game Steam",
-    active: true,
   },
   {
     id: 15,
@@ -126,7 +111,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/Dead-Island-2.jpg"),
     price: 20,
     origin: "Game Steam",
-    active: true,
   },
   {
     id: 16,
@@ -134,7 +118,6 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/Farcry6.jpg"),
     price: 50,
     origin: "Game Steam",
-    active: true,
   },
   {
     id: 17,
@@ -142,7 +125,13 @@ const productData: Item[] = [
     img: require("../Asset/Image/Game/Spider-Man-Miles-Morales.png"),
     price: 60,
     origin: "Game Steam",
-    active: true,
+  },
+  {
+    id: 18,
+    name: "DayZ",
+    img: require("../Asset/Image/Game/dayz.png"),
+    price: 60,
+    origin: "Game Steam",
   },
 ];
 

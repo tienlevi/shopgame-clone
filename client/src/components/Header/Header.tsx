@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaUser, FaBars } from "react-icons/fa";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import Menu from "./Menu";
+import "../../styles/style.css";
+import HeaderCart from "./HeaderCart";
 
 function Header() {
   const [scroll, setScroll] = useState<boolean>(true);
@@ -13,6 +15,15 @@ function Header() {
   const [search, setSearch] = useState<string>("");
   const body = document.querySelector("body");
   const accessToken = localStorage.getItem("AccessToken");
+  const [count, setCount] = useState<any>([]);
+
+  useLayoutEffect(() => {
+    const saved = localStorage.getItem("ProductName");
+
+    if (saved) {
+      setCount(JSON.parse(saved));
+    }
+  }, []);
 
   useEffect(() => {
     const ScrollMouse = () => {
@@ -127,22 +138,30 @@ function Header() {
           </Link>
           <ul className="flex text-white text-[18px] lg:hidden">
             <li>
-              <Link className="px-3 hover:underline" to="/">
+              <Link className="px-4 hover:underline" to="/">
                 Home
               </Link>
             </li>
-            <li>
-              <Link className="px-3 hover:underline" to="/Cart">
+            <li className="relative">
+              <Link className="px-4 hover:underline" to="/Cart">
                 Cart
               </Link>
+              {count.length > 0 && (
+                <div className="block">
+                  <span className="ping absolute top-[-10px] right-0 h-5 w-5 rounded-full bg-red"></span>
+                  <span className="flex items-center justify-center absolute top-[-10px] right-0 text-[15px] rounded-full h-5 w-5 bg-red">
+                    {/* {count.length} */}
+                  </span>
+                </div>
+              )}
             </li>
             <li>
-              <Link className="px-3 hover:underline" to="/Category?cate=">
+              <Link className="px-4 hover:underline" to="/Category?cate=">
                 Category
               </Link>
             </li>
             <li>
-              <Link className="px-3 hover:underline" to="/About">
+              <Link className="px-4 hover:underline" to="/About">
                 About my website
               </Link>
             </li>

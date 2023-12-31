@@ -49,7 +49,7 @@ function MyCart() {
           <div className="w-[70%] pr-4">
             {cart &&
               cart.map((item, index) => (
-                <div className="flex justify-between" key={index}>
+                <div className="flex justify-between mb-4" key={index}>
                   <div className="flex">
                     <img
                       className="w-[250px] h-[350px] object-cover"
