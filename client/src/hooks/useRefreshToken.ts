@@ -1,20 +1,19 @@
 import axios from "axios";
+import { useState } from "react";
 
 function RefreshToken() {
+  const [accessToken, setAccessToken] = useState<string>("");
+
   const refreshToken = async () => {
     const refreshToken = localStorage.getItem("RefreshToken");
-    if (!refreshToken) {
-      return null;
-    }
     try {
       const response = await axios.post("http://localhost:5000/refresh", {
         refreshToken,
-        withCredentials: true,
       });
-      const accessToken = response.data?.accessToken;
-      console.log(accessToken);
-      localStorage.setItem("AccessToken", accessToken);
-      return response.data;
+      const newAccessToken = response.data?.accessToken;
+      console.log(newAccessToken);
+      localStorage.setItem("AccessToken", newAccessToken);
+      setAccessToken(newAccessToken);
     } catch (err) {
       console.log(err);
     }

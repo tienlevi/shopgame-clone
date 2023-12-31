@@ -8,11 +8,9 @@ function useAxios() {
   const accessToken = localStorage.getItem("AccessToken");
 
   useEffect(() => {
-    axiosJWT.interceptors.request.use(
+    const axiosRequest = axiosJWT.interceptors.request.use(
       async (config) => {
-        if (!config.headers["Authorization"]) {
-          config.headers["Authorization"] = `Bearer ${accessToken}`;
-        }
+        config.headers["Authorization"] = `Bearer ${accessToken}`;
         return config;
       },
       (error) => {
@@ -20,18 +18,29 @@ function useAxios() {
       }
     );
 
-    axiosJWT.interceptors.response.use(
+    const axiosResponse = axiosJWT.interceptors.response.use(
       (response) => response,
       async (error) => {
         const prevRequest = error?.config;
         const newAccessToken = await refresh();
-        if (error?.response?.status === 403 || !newAccessToken) {
-          prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          return prevRequest;
+        if (error?.response?.status === 403 && !prevRequest.sent) {
+          prevRequest.sent = true;
+          try {
+            axiosJWT.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${newAccessToken}`;
+            return prevRequest;
+          } catch (err) {
+            console.log(err);
+          }
         }
         return Promise.reject(error);
       }
     );
+    return () => {
+      axiosJWT.interceptors.request.eject(axiosRequest);
+      axiosJWT.interceptors.response.eject(axiosResponse);
+    };
   }, [accessToken, axiosJWT, refresh]);
 
   return axiosJWT;

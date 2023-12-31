@@ -1,13 +1,8 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import useInterceptors from "../../hooks/useInterceptors";
-import {
-  FaUser,
-  FaInfo,
-  FaShieldAlt,
-  FaPaperclip,
-  FaCreditCard,
-} from "react-icons/fa";
+import { FaUser, FaWrench, FaCartPlus } from "react-icons/fa";
+import { Stack, Button } from "@mui/material";
 import RefreshToken from "../../hooks/useRefreshToken";
 // import axios from "axios";
 
@@ -15,50 +10,20 @@ const tabViews = [
   {
     index: 1,
     name: "Overview",
+    href: "",
     icon: FaUser,
   },
   {
     index: 2,
-    name: "Detail",
-    icon: FaInfo,
+    name: "Change Information",
+    href: "information",
+    icon: FaWrench,
   },
   {
     index: 3,
-    name: "Security",
-    icon: FaShieldAlt,
-  },
-  {
-    index: 4,
-    name: "Connection",
-    icon: FaPaperclip,
-  },
-  {
-    index: 5,
-    name: "Payment Methods",
-    icon: FaCreditCard,
-  },
-];
-
-const tabViewInformation = [
-  {
-    index: 1,
-    name: "Overview",
-  },
-  {
-    index: 2,
-    name: "Detail",
-  },
-  {
-    index: 3,
-    name: "Security",
-  },
-  {
-    index: 4,
-    name: "Connection",
-  },
-  {
-    index: 5,
-    name: "Payment Methods",
+    name: "History buy",
+    href: "history",
+    icon: FaCartPlus,
   },
 ];
 
@@ -83,26 +48,25 @@ function User() {
       setInfor(user);
       console.log(user);
     } catch (err) {
+      // navigate("/");
       console.log(err);
     }
   };
+
   const handleRefreshToken = () => {
     refresh();
     getUser(accessToken);
   };
 
-  useEffect(() => {
-    getUser(accessToken);
-    console.log(accessToken);
-  }, [accessToken]);
+  // useEffect(() => {
+  //   if (accessToken === null) {
+  //     navigate("/");
+  //   }
+  // }, [accessToken, navigate]);
 
   useEffect(() => {
-    if (accessToken === "") {
-      navigate("/");
-      localStorage.removeItem("RefreshToken");
-      localStorage.removeItem("AccessToken");
-    }
-  }, [accessToken, navigate]);
+    getUser(accessToken);
+  }, [accessToken]);
 
   const handleLogout = () => {
     navigate("/");
@@ -120,6 +84,7 @@ function User() {
             {tabViews.map((item) => (
               <div
                 key={item.index}
+                // to={item.href}
                 onClick={() => setTab(item.index)}
                 className={`flex items-center p-4 cursor-pointer ${
                   tab === item.index
@@ -140,26 +105,130 @@ function User() {
             </div>
           </div>
           <div className="w-[750px] border-gray border-2">
-            <h1 className="text-[27px] font-bold p-3 border-instagramColor-orange border-b-[1px]">
-              Information
-            </h1>
-            <div className="p-3">
-              <div className="my-1">
-                <h1 className="text-[21px] font-bold">Account</h1>
-                <p className="h-[40px] text-[18px] my-2">{infor?.username}</p>
-              </div>
-              <div className="my-1">
-                <h1 className="text-[21px] font-bold">Email</h1>
-                <p className="h-[40px] text-[18px] my-2">{infor?.email}</p>
-              </div>
-              <div className="my-1">
-                <h1 className="text-[21px] font-bold">Name</h1>
-                <p className="h-[40px] text-[18px] my-2">Nguyen Trach Tien</p>
-              </div>
-              <div className="my-1">
-                <h1 className="text-[21px] font-bold">Phone number</h1>
-                <p className="h-[40px] text-[18px] my-2">{infor?.tel}</p>
-              </div>
+            <div className="block">
+              {tab === 1 && (
+                <div>
+                  <h1 className="text-[27px] font-bold p-3 border-instagramColor-orange border-b-[1px]">
+                    Overview
+                  </h1>
+                  <div className="p-3">
+                    <div className="my-1">
+                      <h1 className="text-[21px] font-bold">Account</h1>
+                      <p className="h-[40px] text-[18px] my-2">
+                        {infor?.username}
+                      </p>
+                    </div>
+                    <div className="my-1">
+                      <h1 className="text-[21px] font-bold">Email</h1>
+                      <p className="h-[40px] text-[18px] my-2">
+                        {infor?.email}
+                      </p>
+                    </div>
+                    <div className="my-1">
+                      <h1 className="text-[21px] font-bold">Name</h1>
+                      <p className="h-[40px] text-[18px] my-2">
+                        Nguyen Trach Tien
+                      </p>
+                    </div>
+                    <div className="my-1">
+                      <h1 className="text-[21px] font-bold">Phone number</h1>
+                      <p className="h-[40px] text-[18px] my-2">{infor?.tel}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {tab === 2 && (
+                <div>
+                  <h1 className="text-[27px] font-bold p-3 border-instagramColor-orange border-b-[1px]">
+                    Change Information
+                  </h1>
+                  <div className="p-3">
+                    <div className="my-1">
+                      {/* <h1 className="text-[21px] font-bold">Password</h1> */}
+                      {/* <input
+                        type="password"
+                        placeholder="Account"
+                        value={infor?.password}
+                        className="w-[280px] h-[35px] text-[18px] border-[1px] border-black my-4 pl-3 rounded-[5px] focus:outline-none"
+                      /> */}
+                    </div>
+                    <div className="my-1">
+                      <h1 className="text-[21px] font-bold">Email</h1>
+                      <input
+                        type="text"
+                        placeholder="Account"
+                        value={infor?.email}
+                        className="w-[100%] h-[35px] text-[18px] border-[1px] border-black my-4 pl-3 rounded-[5px] focus:outline-none"
+                      />
+                    </div>
+                    <div className="my-1">
+                      <h1 className="text-[21px] font-bold">Name</h1>
+                      <input
+                        type="text"
+                        placeholder="Account"
+                        value="Nguyen Trach Tien"
+                        className="w-[100%] h-[35px] text-[18px] border-[1px] border-black my-4 pl-3 rounded-[5px] focus:outline-none"
+                      />
+                    </div>
+                    <div className="my-1">
+                      <h1 className="text-[21px] font-bold">Phone number</h1>
+                      <input
+                        type="text"
+                        placeholder="Account"
+                        value={infor?.tel}
+                        className="w-[100%] h-[35px] text-[18px] border-[1px] border-black my-4 pl-3 rounded-[5px] focus:outline-none"
+                      />
+                    </div>
+                    <div className="my-1">
+                      <Stack
+                        spacing={3}
+                        direction={{
+                          xl: "row",
+                          lg: "row",
+                          md: "row",
+                          sm: "column",
+                        }}
+                      >
+                        <Button variant="contained">Confirm</Button>
+                        <Button variant="text">
+                          <Link to="">Change Password</Link>
+                        </Button>
+                      </Stack>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {tab === 3 && (
+                <div>
+                  <h1 className="text-[27px] font-bold p-3 border-instagramColor-orange border-b-[1px]">
+                    History buy
+                  </h1>
+                  <div className="p-3">
+                    <div className="my-1">
+                      <h1 className="text-[21px] font-bold">Account</h1>
+                      <p className="h-[40px] text-[18px] my-2">
+                        {infor?.username}
+                      </p>
+                    </div>
+                    <div className="my-1">
+                      <h1 className="text-[21px] font-bold">Email</h1>
+                      <p className="h-[40px] text-[18px] my-2">
+                        {infor?.email}
+                      </p>
+                    </div>
+                    <div className="my-1">
+                      <h1 className="text-[21px] font-bold">Name</h1>
+                      <p className="h-[40px] text-[18px] my-2">
+                        Nguyen Trach Tien
+                      </p>
+                    </div>
+                    <div className="my-1">
+                      <h1 className="text-[21px] font-bold">Phone number</h1>
+                      <p className="h-[40px] text-[18px] my-2">{infor?.tel}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

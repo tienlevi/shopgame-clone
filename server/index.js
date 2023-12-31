@@ -61,24 +61,40 @@ app.post("/refresh", async (req, res) => {
   }
 });
 
+const validatePassword = async (password, user) => {
+  try {
+    const isPasswordValid = await bcrypt.compare(password, user.username);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid password" });
+    }
+  } catch (error) {
+    console.error("Error validating password:", error);
+  }
+};
+
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
+  const user = await UserModel.findOne({ username });
 
   try {
-    const user = await UserModel.findOne({ username });
     if (!user) {
-      return res.status(401).json({ error: "Invalid username or password" });
+      return res.status(401).json({ error: "Invalid user" });
     }
-    const isPasswordValid = bcrypt.compare(password, user.password);
-    console.log(user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ error: "Invalid username or password" });
+    // const isPasswordValid = bcrypt.compare(password, user.username);
+
+    // if (!isPasswordValid) {
+    //   return res.status(401).json({ error: "Invalid password" });
+    // }
+    if (password !== user.password) {
+      return res.status(401).json({ error: "Invalid password" });
     }
+
     const accessToken = jwt.sign(
       { username: user.username },
       process.env.JWT_ACCESS_SECRET,
       {
-        expiresIn: "10s",
+        expiresIn: "20s",
       }
     );
     const refreshToken = jwt.sign(
@@ -105,7 +121,6 @@ app.get("/user", authenticateToken, async (req, res) => {
 
   try {
     const user = await UserModel.findOne({ username });
-    // console.log(user);
     if (!user) {
       return res.status(403).json({ error: "User not found" });
     }

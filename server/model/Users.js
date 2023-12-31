@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const UserData = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    require: true,
   },
   email: {
     type: String,
-    required: true,
+    require: true,
     unique: true,
   },
   password: {
@@ -17,7 +17,7 @@ const UserData = new mongoose.Schema({
   tel: String,
   refreshToken: {
     type: String,
-    required: false,
+    require: false,
   },
 });
 

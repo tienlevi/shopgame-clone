@@ -33,8 +33,5 @@ export const theme = {
       },
     },
   },
-  animation: {
-    countdown: "countdown 5s forwards",
-  },
 };
 export const plugins = [];
