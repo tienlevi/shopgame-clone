@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaArrowLeft, FaGoogle } from "react-icons/fa";
 import Title from "../components/Title/Title";
+import BASE_SERVER from "../utils/Constans";
 
 function Login() {
   const [username, setUsername] = useState<string>("");
@@ -22,7 +23,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:5000/login`,
+        `${BASE_SERVER}/login`,
         {
           username,
           password,

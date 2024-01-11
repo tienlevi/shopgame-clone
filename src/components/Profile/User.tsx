@@ -5,6 +5,7 @@ import { FaUser, FaWrench, FaLock } from "react-icons/fa";
 import { Stack, Button } from "@mui/material";
 import RefreshToken from "../../hooks/useRefreshToken";
 import axios from "axios";
+import BASE_SERVER from "../../utils/Constans";
 // import axios from "axios";
 
 const tabViews = [
@@ -42,7 +43,7 @@ function User() {
 
   const getUser = async (token: any) => {
     try {
-      const response = await api.get("http://localhost:5000/user", {
+      const response = await api.get(`${BASE_SERVER}/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -67,7 +68,7 @@ function User() {
   const handleChangeInfor = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/changeinfor",
+        `${BASE_SERVER}/changeinfor`,
         {
           email: email,
           // tel: tel,
