@@ -1,10 +1,14 @@
+import { useEffect } from "react";
+
 interface TitlePage {
   title: string;
   children: any;
 }
 
 function Title({ title, children }: TitlePage) {
-  document.title = title;
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
 
   return <>{children}</>;
 }

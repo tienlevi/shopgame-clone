@@ -1,7 +1,8 @@
 import { useLocation } from "react-router-dom";
 import Header from "../components/Header/Header";
-import Filter from "../components/Filter/Filter";
+import TabFilter from "../components/Filter/TabFilter";
 import Footer from "../components/Footer/Footer";
+import Title from "../components/Title/Title";
 import ProductItems from "../Items/ProductItems";
 
 function Category() {
@@ -16,15 +17,15 @@ function Category() {
   };
 
   return (
-    <>
+    <Title title="Category">
       <Header />
-      <Filter
+      <TabFilter
         items={ProductItems}
         selectCategory={selectCategory}
         onSelectCategory={handleSelectCategory}
       />
       <Footer />
-    </>
+    </Title>
   );
 }
 

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { CartContext } from "../components/Cart/CartProvider";
+import { CartContext } from "../context/CartProvider";
 
 function useCart() {
   const context = useContext(CartContext);

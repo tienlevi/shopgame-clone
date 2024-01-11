@@ -6,22 +6,13 @@ interface ProductId {
   img?: string;
   price?: number;
   origin?: string;
-  quantity?: number;
 }
 
 interface addToCart extends ProductId {
   onAddToCart: (prev: any) => void;
 }
 
-function AddCartHome({
-  id,
-  name,
-  img,
-  price,
-  origin,
-  quantity,
-  onAddToCart,
-}: addToCart) {
+function AddCartHome({ id, name, img, price, origin, onAddToCart }: addToCart) {
   const handleAddProduct = () => {
     const update: ProductId = {
       id: id,
@@ -29,7 +20,6 @@ function AddCartHome({
       img: img,
       price: price,
       origin: origin,
-      quantity: 1,
     };
     onAddToCart(update);
   };

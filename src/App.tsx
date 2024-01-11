@@ -7,14 +7,13 @@ import ProductDetail from "./Pages/ProductDetail";
 import Cart from "./Pages/Cart";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
-import Admin from "./Pages/AdminPage";
 import Profile from "./Pages/Profile";
 import Search from "./Pages/Search";
 import About from "./Pages/About";
 import Category from "./Pages/Category";
 import Pay from "./Pages/Pay";
 import Auth from "./Auth/useAuth";
-import CartProvider from "./components/Cart/CartProvider";
+import CartProvider from "./context/CartProvider";
 
 function App() {
   return (
@@ -27,7 +26,6 @@ function App() {
           <Route path="/Cart" element={<Cart />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/SignUp" element={<SignUp />} />
-          <Route path="/Admin" element={<Admin />} />
           <Route element={<Auth />}>
             <Route path="/Profile" element={<Profile />} />
           </Route>

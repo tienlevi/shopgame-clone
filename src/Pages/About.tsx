@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Header from "../components/Header/Header";
-// import AboutWebiste from "../components/AboutWebsite/AboutWebsite";
 import Footer from "../components/Footer/Footer";
+import Title from "../components/Title/Title";
 
 function About() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -24,9 +24,9 @@ function About() {
   }, []);
 
   return (
-    <>
+    <Title title="About Website">
       <Header />
-      <div className="mt-[120px]">
+      <div className="mt-[100px]">
         <img
           className="w-[100%] h-[450px] object-cover"
           src={require("../Asset/Image/Logo-bg/bg-all-games.png")}
@@ -113,7 +113,7 @@ function About() {
         </div>
       </div>
       <Footer />
-    </>
+    </Title>
   );
 }
 

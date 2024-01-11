@@ -4,14 +4,12 @@ import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
 import Title from "../components/Title/Title";
 
-function SignUp() {
+function ChangePassword() {
   const userRef = useRef<HTMLInputElement | null>(null);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [tel, setTel] = useState<string>("");
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("AccessToken");
   axios.defaults.withCredentials = true;
@@ -22,14 +20,12 @@ function SignUp() {
     }
   }, [accessToken, navigate]);
 
-  const createUser = async (e: any) => {
+  const ChangePass = async (e: any) => {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:5000/signup", {
         username,
         password,
-        email,
-        tel,
       });
       setSuccess("Register success");
       const refreshToken = response.data?.refreshToken;
@@ -46,10 +42,10 @@ function SignUp() {
   };
 
   return (
-    <Title title="Register">
+    <Title title="Change Password">
       <div className="absolute top-0 left-0 right-0 bottom-0 bg-bluesecond">
         <form
-          onSubmit={createUser}
+          onSubmit={ChangePass}
           className="absolute top-[45%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[500px] h-[450px] mt-[50px] bg-white rounded-[5px]"
         >
           <Link to="/">
@@ -72,20 +68,6 @@ function SignUp() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <input
-              className="w-[280px] h-[35px] text-[18px] border-[1px] border-black mt-4 pl-3 rounded-[20px] focus:outline-none"
-              type="email"
-              placeholder="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              className="w-[280px] h-[35px] text-[18px] border-[1px] border-black mt-4 pl-3 rounded-[20px] focus:outline-none"
-              type="text"
-              placeholder="Tel"
-              value={tel}
-              onChange={(e) => setTel(e.target.value)}
-            />
             <p className="text-[23px] text-green mt-2">{success}</p>
             <p className="text-[23px] text-red mt-2">{error}</p>
             <input
@@ -107,4 +89,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default ChangePassword;

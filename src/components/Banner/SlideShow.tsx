@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-const slideText = [
+const slide = [
   {
     h1: "STAR WARS OUTLAWS",
     img: require("../../Asset/Image/Slide/image2.jpg"),
@@ -49,7 +49,7 @@ function SlideShow() {
           "--swiper-pagination-color": "#fff",
         }}
       >
-        {slideText.map((item, index) => (
+        {slide.map((item, index) => (
           <SwiperSlide key={index}>
             <img
               className="relative w-[100%] lg:h-[600px] object-cover"

@@ -87,7 +87,6 @@ function Products() {
                   img={product.img}
                   price={product.price}
                   origin={product.origin}
-                  quantity={1}
                   onAddToCart={handleAddToCart}
                 />
               </div>
