@@ -1,3 +1,3 @@
-const BASE_SERVER = "https://shopgame-clone-server.onrender.com";
+const BASE_SERVER = "http://localhost:5000";
 
 export default BASE_SERVER;
