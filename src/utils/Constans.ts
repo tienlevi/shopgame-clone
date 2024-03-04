@@ -1,4 +1,3 @@
-const BASE_SERVER =
-  "mongodb+srv://admin:admin@shopgame-clone-project.jzzdpno.mongodb.net/";
+const BASE_SERVER = "https://shopgame-clone-server.onrender.com";
 
 export default BASE_SERVER;

@@ -21,6 +21,7 @@ function Login() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    console.log(BASE_SERVER);
     try {
       const response = await axios.post(
         `${BASE_SERVER}/login`,
