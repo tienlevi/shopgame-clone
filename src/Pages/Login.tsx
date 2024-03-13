@@ -9,7 +9,6 @@ import Title from "../components/Title/Title";
 
 function Login() {
   const apiUrl: string = "https://shopgame-clone-server.onrender.com";
-  console.log(apiUrl);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
