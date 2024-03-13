@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaArrowLeft, FaGoogle } from "react-icons/fa";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 import Title from "../components/Title/Title";
 import BASE_SERVER from "../utils/Constans";
 
 function Login() {
-  dotenv.config();
+  // dotenv.config();
   // const apiUrl = process?.env?.BASE_SERVER;
   // console.log(apiUrl);
   const [username, setUsername] = useState<string>("");
