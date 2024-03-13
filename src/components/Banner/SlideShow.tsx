@@ -7,24 +7,24 @@ import "swiper/css/pagination";
 const slide = [
   {
     h1: "STAR WARS OUTLAWS",
-    img: require("../../Asset/Image/Slide/image2.jpg"),
+    img: "../../Asset/Image/Slide/image2.jpg",
     content:
       "Experience the first-ever open world Star Wars game, set between the events of The E4pire Strikes Back and Return of the Jedi",
   },
   {
     h1: "GET EARLY ACCESS",
-    img: require("../../Asset/Image/Slide/image4.jpg"),
+    img: "../../Asset/Image/Slide/image4.jpg",
     content:
       "PRE-ORDER EA SPORTS FC™ 24 ULTIMATE EDITION Start playing up to 7 days early, enjoy a4Nike Ultimate Team™ Campaign, receive 4,600 FC Points, and more when you pre-order EA SPORTS FC™ 24 Ultimate Edition today*.",
   },
   {
     h1: "CO-OP SALE! SAVE UP TO 70%",
-    img: require("../../Asset/Image/Slide/istockphoto-1386173530-170667a.png"),
+    img: "../../Asset/Image/Slide/istockphoto-1386173530-170667a.png",
     content: "Get great deals on amazing multiplayer games.",
   },
   {
     h1: "Captain Price and TF 141 face off against",
-    img: require("../../Asset/Image/Slide/MWII-S04-FREE-ACCESS-TOUT.jpg"),
+    img: "../../Asset/Image/Slide/MWII-S04-FREE-ACCESS-TOUT.jpg",
     content: " The ultimate threat in Call of Duty®: Modern Warfare® III",
   },
 ];

@@ -29,7 +29,7 @@ function About() {
       <div className="mt-[100px]">
         <img
           className="w-[100%] h-[450px] object-cover"
-          src={require("../Asset/Image/Logo-bg/bg-all-games.png")}
+          src={`../Asset/Image/Logo-bg/bg-all-games.png`}
           alt=""
         />
         <div className="max-w-[1200px] mx-auto">

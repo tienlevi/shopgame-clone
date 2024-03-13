@@ -124,7 +124,7 @@ function Header() {
           <Link to="/">
             <img
               className="w-[200px] h-[70px] object-cover"
-              src={require("../../Asset/Image/Logo-bg/logo.png")}
+              src={"../../Asset/Image/Logo-bg/logo.png"}
               alt=""
             />
           </Link>

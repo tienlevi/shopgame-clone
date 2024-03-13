@@ -53,7 +53,7 @@ function Footer() {
             </div>
             <div className="lg:m-auto md:w-[300px] xs:w-[200px]">
               <img
-                src={require("../../Asset/Image/Logo-bg/logo.png")}
+                src={"../../Asset/Image/Logo-bg/logo.png"}
                 alt=""
                 className=""
               />

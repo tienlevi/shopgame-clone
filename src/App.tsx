@@ -14,6 +14,7 @@ import Category from "./Pages/Category";
 import Pay from "./Pages/Pay";
 import Auth from "./Auth/useAuth";
 import CartProvider from "./context/CartProvider";
+import "./index.css";
 
 function App() {
   return (

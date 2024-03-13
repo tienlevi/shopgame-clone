@@ -8,7 +8,9 @@ function NotFound() {
         <div className="relative before:absolute before:h-[100%] before:top-0 before:left-0 before:right-0 before:bg-black before:opacity-20">
           <img
             className="w-[100%]"
-            src={require("../Asset/Image/Logo-bg/gradient-hexagonal-background_52683-62053.png")}
+            src={
+              "../Asset/Image/Logo-bg/gradient-hexagonal-background_52683-62053.png"
+            }
             alt=""
           />
           <div className="absolute text-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">

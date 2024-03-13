@@ -2,10 +2,14 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaArrowLeft, FaGoogle } from "react-icons/fa";
+import dotenv from "dotenv";
 import Title from "../components/Title/Title";
 import BASE_SERVER from "../utils/Constans";
 
 function Login() {
+  dotenv.config();
+  // const apiUrl = process?.env?.BASE_SERVER;
+  // console.log(apiUrl);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -23,8 +27,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        // `${BASE_SERVER}/login`,
-        `http://localhost:5000/login`,
+        `${BASE_SERVER}/login`,
         {
           username,
           password,
