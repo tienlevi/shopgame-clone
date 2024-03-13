@@ -8,7 +8,7 @@ import Title from "../components/Title/Title";
 // import BASE_SERVER from "../utils/Constans";
 
 function Login() {
-  const apiUrl: string = "https://shopgame-clone-server.onrender.com";
+  const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
