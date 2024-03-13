@@ -7,6 +7,7 @@ import theme from "../theme/theme";
 import ProductItems from "../../Items/ProductItems";
 import AddCart from "../Cart/AddCart";
 import useCart from "../../hooks/useCart";
+import Images from "../../utils/Images";
 
 interface ProductId {
   id?: number;
@@ -75,7 +76,7 @@ function ProductName() {
           <div className="flex md:flex-col">
             <img
               className="w-[250px] h-[350px] object-cover md:w-[100%] md:h-[650px]"
-              src={thisProduct?.img}
+              src={Images(thisProduct?.img)}
               alt=""
             />
             <div className="ml-4 md:ml-0">

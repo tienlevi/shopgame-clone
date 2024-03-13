@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ProductItems from "../../Items/ProductItems";
+import Images from "../../utils/Images";
 
 function SearchFilter() {
   const location = useLocation();
@@ -22,7 +23,7 @@ function SearchFilter() {
               <div key={index} className="mx-[12px] my-[10px]">
                 <Link key={index} to={`./ProductDetail/${product.id}`}>
                   <img
-                    src={product.img}
+                    src={Images(product.img)}
                     className="w-[220px] h-[350px] object-cover"
                     alt=""
                   />

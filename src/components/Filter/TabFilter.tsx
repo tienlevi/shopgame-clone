@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddCartHome from "../Cart/AddCartHome";
+import Images from "../../utils/Images";
 
 interface FilterCategory {
   items: any;
@@ -99,7 +100,7 @@ function Filter({ items, selectCategory, onSelectCategory }: FilterCategory) {
                 className="relative"
               >
                 <img
-                  src={product.img}
+                  src={Images(product.img)}
                   className="w-[220px] h-[350px] object-cover relative"
                   alt=""
                 />

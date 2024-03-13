@@ -3,6 +3,7 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import Images from "../../utils/Images";
 import BlogData from "../../Items/Blog";
 
 function Blog() {
@@ -34,7 +35,7 @@ function Blog() {
               <div className="w-[390px] h-[350px] xl:w-[490px] lg:w-[350px] md:w-[240px] sm:w-[500px]">
                 <img
                   className="w-[100%] h-[250px] object-cover"
-                  src={item.image}
+                  src={Images(item.image)}
                   alt="Slide 1"
                 />
                 <p className="h-[120px] bg-gray px-[5px]">{item.text}</p>

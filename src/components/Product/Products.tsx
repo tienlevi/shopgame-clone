@@ -5,6 +5,7 @@ import AddCartHome from "../Cart/AddCartHome";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useCart from "../../hooks/useCart";
+import Images from "../../utils/Images";
 
 interface ProductId {
   id?: number;
@@ -75,7 +76,7 @@ function Products() {
                 className="relative"
               >
                 <img
-                  src={product.img}
+                  src={Images(product?.img)}
                   className="w-[220px] h-[350px] object-cover relative"
                   alt=""
                 />

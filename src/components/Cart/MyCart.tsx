@@ -7,6 +7,7 @@ import { ThemeProvider } from "@emotion/react";
 import theme from "../theme/theme";
 import RemoveCart from "./RemoveCart";
 import useCart from "../../hooks/useCart";
+import Images from "../../utils/Images";
 
 interface myCart {
   id: number;
@@ -92,7 +93,7 @@ function MyCart() {
                     <div className="block">
                       <img
                         className="w-[250px] h-[350px] object-cover md:w-[200px] md:h-[250px]"
-                        src={item.img}
+                        src={Images(item.img)}
                         alt=""
                       />
                     </div>

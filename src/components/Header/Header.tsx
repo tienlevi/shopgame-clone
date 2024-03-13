@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import Menu from "./Menu";
+import Images from "../../utils/Images";
 import useCart from "../../hooks/useCart";
 import "../../styles/style.css";
 
@@ -124,7 +125,7 @@ function Header() {
           <Link to="/">
             <img
               className="w-[200px] h-[70px] object-cover"
-              src={"../../Asset/Image/Logo-bg/logo.png"}
+              src={Images("../Asset/Image/Logo-bg/logo.png")}
               alt=""
             />
           </Link>
