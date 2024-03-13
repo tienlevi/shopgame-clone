@@ -125,7 +125,7 @@ function Header() {
           <Link to="/">
             <img
               className="w-[200px] h-[70px] object-cover"
-              src={Images("../Asset/Image/Logo-bg/logo.png")}
+              src={Images("/Asset/Image/Logo-bg/logo.png")}
               alt=""
             />
           </Link>

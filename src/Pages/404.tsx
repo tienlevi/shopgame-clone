@@ -9,7 +9,7 @@ function NotFound() {
           <img
             className="w-[100%]"
             src={
-              "../Asset/Image/Logo-bg/gradient-hexagonal-background_52683-62053.png"
+              "/Asset/Image/Logo-bg/gradient-hexagonal-background_52683-62053.png"
             }
             alt=""
           />
