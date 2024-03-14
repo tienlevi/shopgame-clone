@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
 import Title from "../components/Title/Title";
-import BASE_SERVER from "../utils/Constans";
 
 function SignUp() {
+  const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
   const userRef = useRef<HTMLInputElement | null>(null);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -26,7 +26,7 @@ function SignUp() {
   const createUser = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${BASE_SERVER}/signup`, {
+      const response = await axios.post(`${apiUrl}/signup`, {
         username,
         password,
         email,

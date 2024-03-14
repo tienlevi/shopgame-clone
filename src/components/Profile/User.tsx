@@ -5,7 +5,6 @@ import { FaUser, FaWrench, FaLock } from "react-icons/fa";
 import { Stack, Button } from "@mui/material";
 import RefreshToken from "../../hooks/useRefreshToken";
 import axios from "axios";
-import BASE_SERVER from "../../utils/Constans";
 // import axios from "axios";
 
 const tabViews = [
@@ -30,6 +29,7 @@ const tabViews = [
 ];
 
 function User() {
+  const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
   const [tab, setTab] = useState<number>(1);
   const [infor, setInfor] = useState<any>(null);
   const [newPassword, setNewPassword] = useState<string>("");
@@ -43,7 +43,7 @@ function User() {
 
   const getUser = async (token: any) => {
     try {
-      const response = await api.get(`${BASE_SERVER}/user`, {
+      const response = await api.get(`${apiUrl}/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -68,7 +68,7 @@ function User() {
   const handleChangeInfor = async () => {
     try {
       const response = await axios.post(
-        `${BASE_SERVER}/changeinfor`,
+        `${apiUrl}/changeinfor`,
         {
           email: email,
           // tel: tel,

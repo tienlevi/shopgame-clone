@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaArrowLeft, FaGoogle } from "react-icons/fa";
-import { config } from "dotenv";
-import process from "process";
 import Title from "../components/Title/Title";
 // import BASE_SERVER from "../utils/Constans";
 
