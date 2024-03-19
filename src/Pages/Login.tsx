@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaArrowLeft, FaGoogle } from "react-icons/fa";
 import Title from "../components/Title/Title";
-// import BASE_SERVER from "../utils/Constans";
+import useAuth from "../hooks/useAuth";
 
 function Login() {
+  const { user, setUser }: any = useAuth();
   const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -36,6 +37,7 @@ function Login() {
       );
       const accessToken = response?.data?.accessToken;
       const refreshToken = response?.data?.refreshToken;
+      setUser(user);
       navigate("/Profile");
       localStorage.setItem("RefreshToken", refreshToken);
       localStorage.setItem("AccessToken", accessToken);

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import useInterceptors from "../../hooks/useInterceptors";
 import { FaUser, FaWrench, FaLock } from "react-icons/fa";
 import { Stack, Button } from "@mui/material";
 import RefreshToken from "../../hooks/useRefreshToken";
 import axios from "axios";
-// import axios from "axios";
+import useAuth from "../../hooks/useAuth";
 
 const tabViews = [
   {
@@ -29,33 +29,25 @@ const tabViews = [
 ];
 
 function User() {
+  const { user, setUser }: any = useAuth();
   const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
   const [tab, setTab] = useState<number>(1);
-  const [infor, setInfor] = useState<any>(null);
-  const [newPassword, setNewPassword] = useState<string>("");
-  // const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [tel, setTel] = useState<string>("");
   const api = useInterceptors();
   const navigate = useNavigate();
-  const refresh = RefreshToken();
   const accessToken = localStorage.getItem("AccessToken");
 
   const getUser = async (token: any) => {
     try {
-      const response = await api.get(`${apiUrl}/user`, {
+      const response = await api.get(`http://localhost:5000/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
         withCredentials: true,
       });
-      const user = response.data.user;
-      setInfor(user);
-      setEmail(user.email);
-      setTel(user.tel);
+      setUser(response.data.user);
       console.log(user);
     } catch (err) {
-      // navigate("/");
+      navigate("/");
       console.log(err);
     }
   };
@@ -64,32 +56,6 @@ function User() {
   //   refresh();
   //   getUser(accessToken);
   // };
-
-  const handleChangeInfor = async () => {
-    try {
-      const response = await axios.post(
-        `${apiUrl}/changeinfor`,
-        {
-          email: email,
-          // tel: tel,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      const user = response.data;
-      console.log(user);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    if (accessToken === null) {
-      navigate("/");
-    }
-  }, [accessToken, navigate]);
 
   useEffect(() => {
     getUser(accessToken);
@@ -141,14 +107,12 @@ function User() {
                     <div className="my-1">
                       <h1 className="text-[21px] font-bold">Account</h1>
                       <p className="h-[40px] text-[18px] my-2">
-                        {infor?.username}
+                        {user?.username}
                       </p>
                     </div>
                     <div className="my-1">
                       <h1 className="text-[21px] font-bold">Email</h1>
-                      <p className="h-[40px] text-[18px] my-2">
-                        {infor?.email}
-                      </p>
+                      <p className="h-[40px] text-[18px] my-2">{user?.email}</p>
                     </div>
                     <div className="my-1">
                       <h1 className="text-[21px] font-bold">Name</h1>
@@ -158,7 +122,7 @@ function User() {
                     </div>
                     <div className="my-1">
                       <h1 className="text-[21px] font-bold">Phone number</h1>
-                      <p className="h-[40px] text-[18px] my-2">{infor?.tel}</p>
+                      <p className="h-[40px] text-[18px] my-2">{user?.tel}</p>
                     </div>
                   </div>
                 </div>
@@ -174,8 +138,6 @@ function User() {
                       <input
                         type="text"
                         placeholder="Account"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
                         className="w-[100%] h-[35px] text-[18px] border-[1px] border-black my-4 pl-3 rounded-[5px] focus:outline-none"
                       />
                     </div>
@@ -185,8 +147,6 @@ function User() {
                       <input
                         type="text"
                         placeholder="Account"
-                        value={tel}
-                        onChange={(e) => setTel(e.target.value)}
                         className="w-[100%] h-[35px] text-[18px] border-[1px] border-black my-4 pl-3 rounded-[5px] focus:outline-none"
                       />
                     </div>
@@ -200,9 +160,7 @@ function User() {
                           sm: "column",
                         }}
                       >
-                        <Button onClick={handleChangeInfor} variant="contained">
-                          Confirm
-                        </Button>
+                        <Button variant="contained">Confirm</Button>
                       </Stack>
                     </div>
                   </div>
@@ -230,8 +188,6 @@ function User() {
                       <input
                         type="text"
                         placeholder="●●●●●●●"
-                        defaultValue={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
                         className="w-[100%] h-[35px] text-[18px] border-[1px] border-black my-4 pl-3 rounded-[5px] focus:outline-none"
                       />
                     </div>
