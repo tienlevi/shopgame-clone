@@ -26,7 +26,7 @@ function SignUp() {
   const createUser = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${apiUrl}/signup`, {
+      const response = await axios.post(`${apiUrl}/api/signup`, {
         username,
         password,
         email,

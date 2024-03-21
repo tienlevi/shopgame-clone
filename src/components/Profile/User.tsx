@@ -31,6 +31,7 @@ const tabViews = [
 function User() {
   const { user, setUser }: any = useAuth();
   const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
+
   const [tab, setTab] = useState<number>(1);
   const api = useInterceptors();
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ function User() {
 
   const getUser = async (token: any) => {
     try {
-      const response = await api.get(`${apiUrl}/user`, {
+      const response = await api.get(`${apiUrl}/api/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

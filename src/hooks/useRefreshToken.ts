@@ -8,7 +8,7 @@ function RefreshToken() {
   const refreshToken = async () => {
     const refreshToken = localStorage.getItem("RefreshToken");
     try {
-      const response = await axios.post(`${apiUrl}/refresh`, {
+      const response = await axios.post(`${apiUrl}/api/refresh`, {
         refreshToken,
       });
       const newAccessToken = response.data?.accessToken;
