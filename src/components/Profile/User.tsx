@@ -38,7 +38,7 @@ function User() {
 
   const getUser = async (token: any) => {
     try {
-      const response = await api.get(`http://localhost:5000/user`, {
+      const response = await api.get(`${apiUrl}/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

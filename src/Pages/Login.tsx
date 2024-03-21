@@ -38,7 +38,7 @@ function Login() {
       const accessToken = response?.data?.accessToken;
       const refreshToken = response?.data?.refreshToken;
       setUser(user);
-      navigate("/Profile");
+      navigate("/");
       localStorage.setItem("RefreshToken", refreshToken);
       localStorage.setItem("AccessToken", accessToken);
     } catch (err: any) {
