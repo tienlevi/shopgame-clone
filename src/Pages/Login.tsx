@@ -7,6 +7,7 @@ import useAuth from "../hooks/useAuth";
 
 function Login() {
   const { user, setUser }: any = useAuth();
+  const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
 
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -25,7 +26,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `https://shopgame-clone-server.onrender.com/api/login`,
+        `${apiUrl}/api/login`,
         {
           username,
           password,

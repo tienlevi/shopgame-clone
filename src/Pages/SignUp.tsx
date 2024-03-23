@@ -5,6 +5,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import Title from "../components/Title/Title";
 
 function SignUp() {
+  const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
   const userRef = useRef<HTMLInputElement | null>(null);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -25,15 +26,12 @@ function SignUp() {
   const createUser = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `https://shopgame-clone-server.onrender.com/api/signup`,
-        {
-          username,
-          password,
-          email,
-          tel,
-        }
-      );
+      const response = await axios.post(`${apiUrl}/api/signup`, {
+        username,
+        password,
+        email,
+        tel,
+      });
       setSuccess("Register success");
       const refreshToken = response.data?.refreshToken;
       console.log(response);
