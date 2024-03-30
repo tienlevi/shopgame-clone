@@ -1,17 +1,29 @@
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaArrowLeft, FaGoogle } from "react-icons/fa";
 import Title from "../components/Title/Title";
 import useAuth from "../hooks/useAuth";
 
+interface Input {
+  email: string;
+  password: string;
+  serverError: string;
+}
+
 function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    watch,
+  } = useForm<Input>({ defaultValues: { email: "", password: "" } });
+  const formValue = watch();
+  const { email, password } = formValue;
   const { user, setUser }: any = useAuth();
   const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
-
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
   const token = localStorage.getItem("AccessToken");
   axios.defaults.withCredentials = true;
@@ -22,15 +34,11 @@ function Login() {
     }
   }, [token, navigate]);
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     try {
       const response = await axios.post(
         `${apiUrl}/api/login`,
-        {
-          username,
-          password,
-        },
+        { email, password },
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
@@ -42,12 +50,19 @@ function Login() {
       navigate("/");
       localStorage.setItem("RefreshToken", refreshToken);
       localStorage.setItem("AccessToken", accessToken);
+      window.location.reload();
     } catch (err: any) {
       if (err.response?.status === 401) {
-        setError("username and password are incorrect");
+        setError("password", {
+          type: "401",
+          message: "Username or password incorrect",
+        });
       }
       if (err.response?.status === 500) {
-        setError("Server error");
+        setError("serverError", {
+          type: "500",
+          message: "Server Error",
+        });
       }
     }
   };
@@ -56,7 +71,7 @@ function Login() {
     <Title title="Login">
       <div className="absolute top-0 left-0 right-0 bottom-0 bg-bluesecond">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           className="absolute top-[45%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[500px] h-[450px] mt-[50px] bg-white rounded-[5px]"
         >
           <Link to="/">
@@ -68,17 +83,30 @@ function Login() {
               className="w-[280px] h-[35px] text-[18px] border-[1px] border-black mt-4 pl-3 rounded-[20px] focus:outline-none"
               type="text"
               placeholder="user"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              {...register("email", { required: true })}
             />
+            {errors.email?.type === "required" && (
+              <p className="text-[20px] text-red mt-2">email is required</p>
+            )}
             <input
               className="w-[280px] h-[35px] text-[18px] border-[1px] border-black mt-4 pl-3 rounded-[20px] focus:outline-none"
               type="password"
               placeholder="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password", { required: true })}
             />
-            <p className="text-[23px] text-red mt-2">{error}</p>
+            {errors.password?.type === "required" && (
+              <p className="text-[20px] text-red mt-2">username is required</p>
+            )}
+            {errors.password && (
+              <p className="text-[20px] text-red mt-2">
+                {errors.password.message}
+              </p>
+            )}
+            {errors.serverError && (
+              <p className="text-[20px] text-red mt-2">
+                {errors.serverError.message}
+              </p>
+            )}
             <button className="w-[280px] h-[40px] text-[20px] mt-4 text-blue border-bluesecond border-[1px] duration-300 rounded-[20px] uppercase hover:bg-bluesecond hover:text-white">
               Login
             </button>

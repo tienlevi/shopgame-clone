@@ -1,18 +1,31 @@
 import { useState, useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
 import Title from "../components/Title/Title";
 
+interface Input {
+  name: string;
+  email: string;
+  password: string;
+  tel: string;
+  serverError?: string;
+}
+
 function SignUp() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    watch,
+  } = useForm<Input>({
+    defaultValues: { name: "", email: "", password: "", tel: "" },
+  });
+  const formValue = watch();
+  const { name, email, password, tel } = formValue;
   const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
-  const userRef = useRef<HTMLInputElement | null>(null);
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [success, setSuccess] = useState<string>("");
-  const [error, setError] = useState<string>("");
-  const [tel, setTel] = useState<string>("");
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("AccessToken");
   axios.defaults.withCredentials = true;
@@ -26,22 +39,27 @@ function SignUp() {
   const createUser = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${apiUrl}/api/signup`, {
-        username,
+      const response = await axios.post(`http://localhost:5000/api/signup`, {
+        name,
         password,
         email,
         tel,
       });
-      setSuccess("Register success");
       const refreshToken = response.data?.refreshToken;
       console.log(response);
       console.log(refreshToken);
     } catch (err: any) {
       if (err.response?.status === 402) {
-        setError("User already registered.");
+        setError("password", {
+          type: "402",
+          message: "User already registered.",
+        });
       }
       if (err.response?.status === 400) {
-        setError("Password must be at least 8 characters long");
+        setError("password", {
+          type: "402",
+          message: "Password must be at least 8 characters long",
+        });
       }
     }
   };
@@ -61,34 +79,50 @@ function SignUp() {
             <input
               className="w-[280px] h-[35px] text-[18px] border-[1px] border-black mt-4 pl-3 rounded-[20px] focus:outline-none"
               type="text"
-              placeholder="user"
-              ref={userRef}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              placeholder="name"
+              {...register("name", { required: true })}
             />
+            {errors.email?.type === "required" && (
+              <p className="text-[20px] text-red mt-2">name is required</p>
+            )}
+            <input
+              className="w-[280px] h-[35px] text-[18px] border-[1px] border-black mt-4 pl-3 rounded-[20px] focus:outline-none"
+              type="text"
+              placeholder="email"
+              {...register("email", { required: true })}
+            />
+            {errors.email?.type === "required" && (
+              <p className="text-[20px] text-red mt-2">email is required</p>
+            )}
+
             <input
               className="w-[280px] h-[35px] text-[18px] border-[1px] border-black mt-4 pl-3 rounded-[20px] focus:outline-none"
               type="password"
               placeholder="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password", { required: true })}
             />
-            <input
-              className="w-[280px] h-[35px] text-[18px] border-[1px] border-black mt-4 pl-3 rounded-[20px] focus:outline-none"
-              type="email"
-              placeholder="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            {errors.password?.type === "required" && (
+              <p className="text-[20px] text-red mt-2">password is required</p>
+            )}
+            {errors.password && (
+              <p className="text-[20px] text-red mt-2">
+                {errors.password.message}
+              </p>
+            )}
+            {errors.serverError && (
+              <p className="text-[20px] text-red mt-2">
+                {errors.serverError.message}
+              </p>
+            )}
             <input
               className="w-[280px] h-[35px] text-[18px] border-[1px] border-black mt-4 pl-3 rounded-[20px] focus:outline-none"
               type="text"
-              placeholder="Tel"
-              value={tel}
-              onChange={(e) => setTel(e.target.value)}
+              placeholder="tel"
+              {...register("tel", { required: true })}
             />
-            <p className="text-[23px] text-green mt-2">{success}</p>
-            <p className="text-[23px] text-red mt-2">{error}</p>
+            {errors.tel?.type === "required" && (
+              <p className="text-[20px] text-red mt-2">tel is required</p>
+            )}
             <input
               type="submit"
               value="Register"
