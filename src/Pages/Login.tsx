@@ -25,14 +25,13 @@ function Login() {
   const { user, setUser }: any = useAuth();
   const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
   const navigate = useNavigate();
-  const token = localStorage.getItem("AccessToken");
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    if (token) {
+    if (user) {
       navigate("/Profile");
     }
-  }, [token, navigate]);
+  }, [navigate, user]);
 
   const onSubmit = async () => {
     try {

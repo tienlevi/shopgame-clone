@@ -17,6 +17,7 @@ function Header() {
   const [search, setSearch] = useState<string>("");
   const body = document.querySelector("body");
   const accessToken = localStorage.getItem("AccessToken");
+  const refreshToken = localStorage.getItem("RefreshToken");
 
   useEffect(() => {
     const ScrollMouse = () => {
@@ -96,7 +97,7 @@ function Header() {
           </Paper>
         </div>
         <div className="mx-2">
-          {accessToken ? (
+          {accessToken && refreshToken ? (
             <Link className="flex items-center" to="/Profile">
               <FaUser className="h-[35px] pr-2 text-white text-[30px] rounded-r-sm cursor-pointer" />
               <p className="text-[19px] text-white">Profile</p>

@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
-import useInterceptors from "../../hooks/useInterceptors";
-import { FaUser, FaWrench, FaLock } from "react-icons/fa";
+import { FaUser, FaLock } from "react-icons/fa";
+import { BiLogOut } from "react-icons/bi";
 import { Stack, Button } from "@mui/material";
-import RefreshToken from "../../hooks/useRefreshToken";
-import axios from "axios";
+import useInterceptors from "../../hooks/useInterceptors";
 import useAuth from "../../hooks/useAuth";
 
 const tabViews = [
@@ -24,11 +23,10 @@ const tabViews = [
 
 function User() {
   const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
-  const { user, setUser }: any = useAuth();
+  const { accessToken, user, setUser }: any = useAuth();
   const [tab, setTab] = useState<number>(1);
   const api = useInterceptors();
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem("AccessToken");
 
   const getUser = async (token: any) => {
     try {
@@ -46,11 +44,6 @@ function User() {
     }
   };
 
-  // const handleRefreshToken = () => {
-  //   refresh();
-  //   getUser(accessToken);
-  // };
-
   useEffect(() => {
     getUser(accessToken);
   }, [accessToken]);
@@ -59,6 +52,7 @@ function User() {
     navigate("/");
     localStorage.removeItem("RefreshToken");
     localStorage.removeItem("AccessToken");
+    window.location.reload();
   };
 
   return (
@@ -86,7 +80,7 @@ function User() {
               className={`flex items-center p-4 cursor-pointer hover:border-r-[5px] hover:border-blue hover:bg-bluethird hover:text-white`}
               onClick={handleLogout}
             >
-              <FaUser className="text-[21px] ml-2" />
+              <BiLogOut className="text-[21px] ml-2" />
               <p className="text-[19px] ml-2">Logout</p>
             </div>
           </div>
