@@ -16,12 +16,6 @@ const tabViews = [
   },
   {
     index: 2,
-    name: "Change Information",
-    href: "information",
-    icon: FaWrench,
-  },
-  {
-    index: 3,
     name: "Change Password",
     href: "information",
     icon: FaLock,
@@ -105,21 +99,14 @@ function User() {
                   </h1>
                   <div className="p-3">
                     <div className="my-1">
-                      <h1 className="text-[21px] font-bold">Account</h1>
-                      <p className="h-[40px] text-[18px] my-2">
-                        {user?.username}
-                      </p>
+                      <h1 className="text-[21px] font-bold">Name</h1>
+                      <p className="h-[40px] text-[18px] my-2">{user?.name}</p>
                     </div>
                     <div className="my-1">
                       <h1 className="text-[21px] font-bold">Email</h1>
                       <p className="h-[40px] text-[18px] my-2">{user?.email}</p>
                     </div>
-                    <div className="my-1">
-                      <h1 className="text-[21px] font-bold">Name</h1>
-                      <p className="h-[40px] text-[18px] my-2">
-                        Nguyen Trach Tien
-                      </p>
-                    </div>
+
                     <div className="my-1">
                       <h1 className="text-[21px] font-bold">Phone number</h1>
                       <p className="h-[40px] text-[18px] my-2">{user?.tel}</p>

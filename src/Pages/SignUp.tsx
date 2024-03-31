@@ -36,10 +36,9 @@ function SignUp() {
     }
   }, [accessToken, navigate]);
 
-  const createUser = async (e: any) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     try {
-      const response = await axios.post(`http://localhost:5000/api/signup`, {
+      const response = await axios.post(`${apiUrl}/api/signup`, {
         name,
         password,
         email,
@@ -58,7 +57,7 @@ function SignUp() {
       if (err.response?.status === 400) {
         setError("password", {
           type: "402",
-          message: "Password must be at least 8 characters long",
+          message: "Password must be at least 6 characters long",
         });
       }
     }
@@ -68,7 +67,7 @@ function SignUp() {
     <Title title="Register">
       <div className="absolute top-0 left-0 right-0 bottom-0 bg-bluesecond">
         <form
-          onSubmit={createUser}
+          onSubmit={handleSubmit(onSubmit)}
           className="absolute top-[45%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[500px] h-[450px] mt-[50px] bg-white rounded-[5px]"
         >
           <Link to="/">
@@ -104,16 +103,7 @@ function SignUp() {
             {errors.password?.type === "required" && (
               <p className="text-[20px] text-red mt-2">password is required</p>
             )}
-            {errors.password && (
-              <p className="text-[20px] text-red mt-2">
-                {errors.password.message}
-              </p>
-            )}
-            {errors.serverError && (
-              <p className="text-[20px] text-red mt-2">
-                {errors.serverError.message}
-              </p>
-            )}
+
             <input
               className="w-[280px] h-[35px] text-[18px] border-[1px] border-black mt-4 pl-3 rounded-[20px] focus:outline-none"
               type="text"
@@ -122,6 +112,16 @@ function SignUp() {
             />
             {errors.tel?.type === "required" && (
               <p className="text-[20px] text-red mt-2">tel is required</p>
+            )}
+            {errors.serverError && (
+              <p className="text-[20px] text-red mt-2">
+                {errors.serverError.message}
+              </p>
+            )}
+            {errors.password && (
+              <p className="text-[20px] text-red mt-2">
+                {errors.password.message}
+              </p>
             )}
             <input
               type="submit"
