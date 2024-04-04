@@ -71,7 +71,7 @@ function Login() {
       <div className="absolute top-0 left-0 right-0 bottom-0 bg-bluesecond">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="absolute top-[45%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[500px] h-[450px] mt-[50px] bg-white rounded-[5px]"
+          className="absolute top-[45%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[500px] py-5 mt-[50px] bg-white rounded-[5px]"
         >
           <Link to="/">
             <FaArrowLeft className="text-[23px] m-4 cursor-pointer" />

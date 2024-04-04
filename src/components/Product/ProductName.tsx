@@ -3,25 +3,19 @@ import { useParams } from "react-router-dom";
 import { Stack, Button, ThemeProvider } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import theme from "../theme/theme";
 import ProductItems from "../../Items/ProductItems";
-import AddCart from "../Cart/AddCart";
+import AddToCart from "../Cart/AddToCart";
 import useCart from "../../hooks/useCart";
 import Images from "../../utils/Images";
-
-interface ProductId {
-  id?: number;
-  name?: string;
-  img?: string;
-  price?: number;
-  origin?: string;
-}
+import Product from "../../interface";
 
 function ProductName() {
   const { id } = useParams<string>();
   const num = Number(id);
   const thisProduct = ProductItems.find((item) => item.id === num);
-  const [product, setProduct] = useState<ProductId[]>([]);
+  const [product, setProduct] = useState<Product[]>([]);
   const [isCartAdded, setIsCartAdded] = useState<boolean>(false);
   const { addToCart }: any = useCart();
 
@@ -35,8 +29,8 @@ function ProductName() {
     existProduct && setIsCartAdded(true);
   }, [product, thisProduct?.id]);
 
-  const handleButton = useCallback(() => {
-    const update: ProductId = {
+  const handleAddToCart = useCallback(() => {
+    const update: Product = {
       id: thisProduct?.id,
       name: thisProduct?.name,
       img: thisProduct?.img,
@@ -110,6 +104,7 @@ function ProductName() {
                 >
                   Buy
                 </Button>
+                <ThemeProvider theme={theme}></ThemeProvider>
                 {isCartAdded ? (
                   <Button
                     variant="outlined"
@@ -125,14 +120,30 @@ function ProductName() {
                     You added this product
                   </Button>
                 ) : (
-                  <AddCart
+                  <AddToCart
                     id={thisProduct?.id}
                     name={thisProduct?.name}
                     img={thisProduct?.img}
                     price={thisProduct?.price}
                     origin={thisProduct?.origin}
-                    onAddToCart={handleButton}
-                  />
+                    onAddToCart={handleAddToCart}
+                  >
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        width: {
+                          xl: "250px",
+                          lg: "250px",
+                          md: "250px",
+                          sm: "100%",
+                        },
+                      }}
+                      color="primary"
+                      startIcon={<ShoppingCartIcon />}
+                    >
+                      Add To Cart
+                    </Button>
+                  </AddToCart>
                 )}
               </Stack>
             </div>

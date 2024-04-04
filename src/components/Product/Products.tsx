@@ -1,13 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import ProductItems from "../../Items/ProductItems";
-import AddCartHome from "../Cart/AddCartHome";
+import { FaCartPlus } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProductItems from "../../Items/ProductItems";
+import AddToCart from "../Cart/AddToCart";
 import useCart from "../../hooks/useCart";
 import Images from "../../utils/Images";
 
-interface ProductId {
+interface Product {
   id?: number;
   name?: string;
   img?: string;
@@ -17,7 +18,7 @@ interface ProductId {
 }
 
 function Products() {
-  const [product, setProduct] = useState<ProductId[]>([]);
+  const [product, setProduct] = useState<Product[]>([]);
   const { addToCart }: any = useCart();
 
   useEffect(() => {
@@ -26,8 +27,8 @@ function Products() {
   }, []);
 
   const handleAddToCart = useCallback(
-    (pro: ProductId) => {
-      const update: ProductId = {
+    (pro: Product) => {
+      const update: Product = {
         id: pro.id,
         name: pro.name,
         img: pro.img,
@@ -72,7 +73,7 @@ function Products() {
             >
               <Link
                 key={index}
-                to={`./ProductDetail/${product.id}`}
+                to={`./product-detail/${product.id}`}
                 className="relative"
               >
                 <img
@@ -82,14 +83,17 @@ function Products() {
                 />
               </Link>
               <div className="absolute top-2 right-0 opacity-0 duration-150 z-5 group-hover:opacity-100 group-hover:right-2">
-                <AddCartHome
+                <AddToCart
                   id={product.id}
                   name={product.name}
                   img={product.img}
                   price={product.price}
                   origin={product.origin}
                   onAddToCart={handleAddToCart}
-                />
+                  className="flex items-center justify-center bg-white my-2 w-[45px] h-[45px] rounded-[45px] text-black duration-300 cursor-pointer hover:bg-black hover:text-white"
+                >
+                  <FaCartPlus className="text-[22px]" />
+                </AddToCart>
               </div>
               <div className="w-[220px]">
                 <h2 className="text-[20px] font-bold">{product.name}</h2>

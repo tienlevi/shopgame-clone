@@ -1,15 +1,8 @@
 import { useState, useEffect, createContext } from "react";
+import Product from "../interface";
 
-interface ProductId {
-  id?: number;
-  name?: string;
-  img?: string;
-  price?: number;
-  origin?: string;
-}
-
-interface CartItem extends ProductId {
-  cart: ProductId[];
+interface CartItem extends Product {
+  cart: Product[];
   addToCart: (prev: any) => void;
   removeCart: (itemId: number) => void;
 }
@@ -42,7 +35,7 @@ function CartProvider({ children }: any) {
 
   return (
     <CartContext.Provider
-      value={{ cart: cart as ProductId[], addToCart, removeCart }}
+      value={{ cart: cart as Product[], addToCart, removeCart }}
     >
       {children}
     </CartContext.Provider>

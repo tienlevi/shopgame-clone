@@ -1,22 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { FaCartPlus } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
-import AddCartHome from "../Cart/AddCartHome";
 import Images from "../../utils/Images";
+import AddToCart from "../Cart/AddToCart";
+import Product from "../../interface";
 
 interface FilterCategory {
   items: any;
   selectCategory: any;
   onSelectCategory: (name: string) => void;
-}
-
-interface ProductId {
-  id?: number;
-  name?: string;
-  img?: string;
-  price?: number;
-  origin?: string;
 }
 
 const categories = [
@@ -32,7 +26,7 @@ const categories = [
 ];
 
 function Filter({ items, selectCategory, onSelectCategory }: FilterCategory) {
-  const [product, setProduct] = useState<ProductId[]>([]);
+  const [product, setProduct] = useState<Product[]>([]);
 
   const filteredItems = selectCategory
     ? items.filter((item: any) => item.origin === selectCategory)
@@ -44,7 +38,7 @@ function Filter({ items, selectCategory, onSelectCategory }: FilterCategory) {
   }, []);
 
   const handleAddToCart = useCallback(
-    (pro: ProductId) => {
+    (pro: Product) => {
       const existProduct = product.find((item) => item.id === pro.id);
       if (existProduct) {
         toast.warning("You added this product");
@@ -96,7 +90,7 @@ function Filter({ items, selectCategory, onSelectCategory }: FilterCategory) {
             >
               <Link
                 key={index}
-                to={`./ProductDetail/${product.id}`}
+                to={`/product-detail/${product.id}`}
                 className="relative"
               >
                 <img
@@ -106,14 +100,17 @@ function Filter({ items, selectCategory, onSelectCategory }: FilterCategory) {
                 />
               </Link>
               <div className="absolute top-2 right-0 opacity-0 duration-150 z-5 group-hover:opacity-100 group-hover:right-2">
-                <AddCartHome
+                <AddToCart
                   id={product.id}
                   name={product.name}
                   img={product.img}
                   price={product.price}
                   origin={product.origin}
                   onAddToCart={handleAddToCart}
-                />
+                  className="flex items-center justify-center bg-white my-2 w-[45px] h-[45px] rounded-[45px] text-black duration-300 cursor-pointer hover:bg-black hover:text-white"
+                >
+                  <FaCartPlus className="text-[22px]" />
+                </AddToCart>
               </div>
               <div className="w-[220px]">
                 <h2 className="text-[20px] font-bold">{product.name}</h2>
