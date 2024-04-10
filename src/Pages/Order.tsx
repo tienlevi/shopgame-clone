@@ -1,9 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
-import useCart from "../hooks/useCart";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import Title from "../components/Title/Title";
+import useCart from "../hooks/useCart";
+import useAuth from "../hooks/useAuth";
+import useInterceptors from "../hooks/useInterceptors";
 
 interface myCart {
   id: number;
@@ -14,32 +21,87 @@ interface myCart {
 }
 
 function Pay() {
+  const { register, handleSubmit, reset } = useForm();
   const methodPay = [
     { id: 1, name: "PayPal" },
     { id: 2, name: "Payment on delivery" },
   ];
-  const { cart }: any = useCart();
   const [cartItems, setCartItems] = useState<myCart[]>([]);
   const [checked, setChecked] = useState<number>(1);
+  const api = useInterceptors();
+  const navigate = useNavigate();
+  const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
+  const { accessToken, user }: any = useAuth();
+  const { cart }: any = useCart();
+
+  const getUser = async (token: any) => {
+    try {
+      const response = await api.get(`${apiUrl}/api/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      });
+      reset(response.data.user);
+    } catch (err) {
+      navigate("/");
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    getUser(accessToken);
+  }, [accessToken]);
 
   useEffect(() => {
     const value = localStorage.getItem("CartItems");
     value && setCartItems(JSON.parse(value));
   }, []);
 
+  const total = useMemo(() => {
+    return cart.reduce((cash: number, item: any) => cash + item.price, 0);
+  }, [cart]);
+
+  const onSubmit = async (data: object) => {
+    try {
+      const response = await axios.post(`${apiUrl}/api/orders`, {
+        userId: user?._id,
+        items: cart.map(({ id, ...rest }: any) => ({ ...rest })),
+        userInfo: data,
+        totalPrice: total,
+      });
+      toast.success("Order success");
+      localStorage.removeItem("CartItems");
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Title title="Pay">
       <Header />
-      <h1 className="font-bold text-[27px] text-center mt-[130px]">Payment</h1>
-      <div className="max-w-[1200px] mt-5 mx-auto">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        newestOnTop={false}
+        theme="colored"
+        pauseOnHover={false}
+        style={{ width: "300px", height: "50px" }}
+      />
+      <h1 className="font-bold text-[27px] text-center mt-[130px]">Order</h1>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="max-w-[1200px] mt-5 mx-auto"
+      >
         <div className="flex">
           <div className="w-[60%] h-[50%] px-3 bg-lightBlue rounded-md shadow-[0_0_4px_0.5px_rgba(0,0,0,0.3)]">
             <div className="my-2 flex flex-col">
               <label htmlFor="" className="text-[19px] text-white">
-                Username
+                Name
               </label>
               <input
                 type="text"
+                {...register("name")}
                 style={{ background: "transparent" }}
                 className="w-[100%] h-[35px] text-[18px] border-b-[1px] text-white border-white mt-2 pl-3 focus:outline-none placeholder:text-gray"
               />
@@ -50,6 +112,7 @@ function Pay() {
               </label>
               <input
                 type="text"
+                {...register("email")}
                 style={{ background: "transparent" }}
                 className="w-[100%] h-[35px] text-[18px] border-b-[1px] text-white border-white mt-2 pl-3 focus:outline-none placeholder:text-gray"
               />
@@ -60,6 +123,7 @@ function Pay() {
               </label>
               <input
                 type="text"
+                {...register("tel")}
                 style={{ background: "transparent" }}
                 className="w-[100%] h-[35px] text-[18px] border-b-[1px] text-white border-white mt-2 pl-3 focus:outline-none placeholder:text-gray"
               />
@@ -70,6 +134,7 @@ function Pay() {
               </label>
               <input
                 type="text"
+                {...register("address")}
                 style={{ background: "transparent" }}
                 className="w-[100%] h-[35px] text-[18px] border-b-[1px] text-white border-white mt-2 pl-3 focus:outline-none placeholder:text-gray"
               />
@@ -110,19 +175,24 @@ function Pay() {
                     className="w-[120px] h-[150px] object-cover"
                   />
                   <div className="ml-2 w-[50%]">
-                    <h1>{item.name}</h1>
-                    <p>{cart?.length}</p>
+                    <p className="text-[20px] font-medium">{item.name}</p>
+                    <p className="text-[17px]">{item.category}</p>
                   </div>
                 </div>
                 <div className="font-bold">{item.price}$</div>
               </div>
             ))}
-            <Button sx={{ width: "100%" }} color="primary" variant="contained">
+            <Button
+              sx={{ width: "100%" }}
+              color="primary"
+              variant="contained"
+              type="submit"
+            >
               Buy
             </Button>
           </div>
         </div>
-      </div>
+      </form>
       <Footer />
     </Title>
   );

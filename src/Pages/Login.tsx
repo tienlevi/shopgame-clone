@@ -36,7 +36,7 @@ function Login() {
   const onSubmit = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/login`,
+        `${apiUrl}/api/login`,
         { email, password },
         {
           headers: { "Content-Type": "application/json" },
