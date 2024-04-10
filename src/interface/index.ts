@@ -3,7 +3,7 @@ interface Product {
   name?: string;
   img?: string;
   price?: number;
-  origin?: string;
+  category?: string;
 }
 
 export default Product;

@@ -13,7 +13,7 @@ function AddToCart(prop: addToCart) {
       name: prop.name,
       img: prop.img,
       price: prop.price,
-      origin: prop.origin,
+      category: prop.category,
     };
     prop.onAddToCart(update);
   };

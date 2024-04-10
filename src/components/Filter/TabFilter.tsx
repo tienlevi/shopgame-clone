@@ -16,20 +16,20 @@ interface FilterCategory {
 const categories = [
   {
     name: "All",
-    origin: "",
+    category: "",
   },
   {
     name: "EA Games",
-    origin: "EA Games",
+    category: "EA Games",
   },
-  { name: "Game Steam", origin: "Game Steam" },
+  { name: "Game Steam", category: "Game Steam" },
 ];
 
 function Filter({ items, selectCategory, onSelectCategory }: FilterCategory) {
   const [product, setProduct] = useState<Product[]>([]);
 
   const filteredItems = selectCategory
-    ? items.filter((item: any) => item.origin === selectCategory)
+    ? items.filter((item: any) => item.category === selectCategory)
     : items;
 
   useEffect(() => {
@@ -72,11 +72,11 @@ function Filter({ items, selectCategory, onSelectCategory }: FilterCategory) {
             <button
               key={index}
               className={`${
-                selectCategory === category.origin
+                selectCategory === category.category
                   ? "bg-bluethird text-white"
                   : "text-bluethird"
               } border-[1px] border-bluethird mx-[10px] p-2 rounded-[5px] hover:bg-bluethird hover:text-white duration-100`}
-              onClick={() => onSelectCategory(category.origin)}
+              onClick={() => onSelectCategory(category.category)}
             >
               {category.name}
             </button>
@@ -105,7 +105,7 @@ function Filter({ items, selectCategory, onSelectCategory }: FilterCategory) {
                   name={product.name}
                   img={product.img}
                   price={product.price}
-                  origin={product.origin}
+                  category={product.category}
                   onAddToCart={handleAddToCart}
                   className="flex items-center justify-center bg-white my-2 w-[45px] h-[45px] rounded-[45px] text-black duration-300 cursor-pointer hover:bg-black hover:text-white"
                 >

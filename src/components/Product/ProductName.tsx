@@ -35,7 +35,7 @@ function ProductName() {
       name: thisProduct?.name,
       img: thisProduct?.img,
       price: thisProduct?.price,
-      origin: thisProduct?.origin,
+      category: thisProduct?.category,
     };
     addToCart(update);
     setProduct((prev: any) => {
@@ -51,7 +51,7 @@ function ProductName() {
     thisProduct?.id,
     thisProduct?.img,
     thisProduct?.name,
-    thisProduct?.origin,
+    thisProduct?.category,
     thisProduct?.price,
   ]);
 
@@ -84,7 +84,7 @@ function ProductName() {
                 Status: <span className="text-green">Stoking</span>
               </p>
               <p className="text-[18px] my-2 md:text-[24px]">
-                {thisProduct?.origin}
+                {thisProduct?.category}
               </p>
               <Stack
                 spacing={4}
@@ -125,7 +125,7 @@ function ProductName() {
                     name={thisProduct?.name}
                     img={thisProduct?.img}
                     price={thisProduct?.price}
-                    origin={thisProduct?.origin}
+                    category={thisProduct?.category}
                     onAddToCart={handleAddToCart}
                   >
                     <Button

@@ -10,7 +10,7 @@ interface myCart {
   name: string;
   img: string;
   price: number;
-  origin: string;
+  category: string;
 }
 
 function Pay() {

@@ -13,7 +13,7 @@ interface Product {
   name?: string;
   img?: string;
   price?: number;
-  origin?: string;
+  category?: string;
   quantity?: number;
 }
 
@@ -33,7 +33,7 @@ function Products() {
         name: pro.name,
         img: pro.img,
         price: pro.price,
-        origin: pro.origin,
+        category: pro.category,
         quantity: 1,
       };
       addToCart(update);
@@ -88,7 +88,7 @@ function Products() {
                   name={product.name}
                   img={product.img}
                   price={product.price}
-                  origin={product.origin}
+                  category={product.category}
                   onAddToCart={handleAddToCart}
                   className="flex items-center justify-center bg-white my-2 w-[45px] h-[45px] rounded-[45px] text-black duration-300 cursor-pointer hover:bg-black hover:text-white"
                 >

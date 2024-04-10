@@ -14,7 +14,7 @@ interface myCart {
   name: string;
   img: string;
   price: number;
-  origin: string;
+  category: string;
   quantity: number;
 }
 
@@ -102,7 +102,7 @@ function MyCart() {
                         <h2 className="text-[27px] font-bold md:text-[20px]">
                           {item.name}
                         </h2>
-                        <p className="mt-3 text-[18px]">{item.origin}</p>
+                        <p className="mt-3 text-[18px]">{item.category}</p>
                         <b className="mt-3 text-[21px] text-red font-bold text-right">
                           {item.price}$
                         </b>

@@ -28,7 +28,7 @@ function SearchFilter() {
         name: pro.name,
         img: pro.img,
         price: pro.price,
-        origin: pro.origin,
+        category: pro.category,
       };
       addToCart(update);
       const existProduct = product.find((item) => item.id === pro.id);
@@ -67,7 +67,7 @@ function SearchFilter() {
                       name={product.name}
                       img={product.img}
                       price={product.price}
-                      origin={product.origin}
+                      category={product.category}
                       onAddToCart={handleAddToCart}
                       className="flex items-center justify-center bg-white my-2 w-[45px] h-[45px] rounded-[45px] text-black duration-300 cursor-pointer hover:bg-black hover:text-white"
                     >
