@@ -160,7 +160,7 @@ function MyCart() {
                 </h2>
               </div>
             </div>
-            <Link to="/Pay">
+            <Link to="/order">
               <Button
                 sx={{
                   width: "100%",

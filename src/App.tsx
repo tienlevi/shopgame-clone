@@ -11,7 +11,7 @@ import Profile from "./Pages/Profile";
 import Search from "./Pages/Search";
 import About from "./Pages/About";
 import Category from "./Pages/Category";
-import Pay from "./Pages/Pay";
+import Order from "./Pages/Order";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import CartProvider from "./context/CartProvider";
 import "./index.css";
@@ -26,16 +26,16 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/product-detail/:id" element={<ProductDetail />} />
-            <Route path="/Cart" element={<Cart />} />
-            <Route path="/Login" element={<Login />} />
-            <Route path="/SignUp" element={<SignUp />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route element={<ProtectedRoute />}>
-              <Route path="/Profile" element={<Profile />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/order" element={<Order />} />
             </Route>
-            <Route path="/Search" element={<Search />} />
-            <Route path="/About" element={<About />} />
-            <Route path="/Category" element={<Category />} />
-            <Route path="/Pay" element={<Pay />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/category" element={<Category />} />
           </Routes>
         </AuthProvider>
       </CartProvider>

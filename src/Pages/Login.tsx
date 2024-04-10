@@ -29,14 +29,14 @@ function Login() {
 
   useEffect(() => {
     if (user) {
-      navigate("/Profile");
+      navigate("/profile");
     }
   }, [navigate, user]);
 
   const onSubmit = async () => {
     try {
       const response = await axios.post(
-        `${apiUrl}/api/login`,
+        `http://localhost:5000/api/login`,
         { email, password },
         {
           headers: { "Content-Type": "application/json" },
@@ -117,7 +117,7 @@ function Login() {
                 You don't have an account ?
                 <Link
                   className="text-lightBlue ml-1 decoration-auto"
-                  to="/SignUp"
+                  to="/signUp"
                 >
                   Sign Up
                 </Link>

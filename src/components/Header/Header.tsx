@@ -61,7 +61,7 @@ function Header() {
   };
 
   const handleSearch = () => {
-    window.location.href = `/Search?name=${search}`;
+    window.location.href = `/search?name=${search}`;
   };
   return (
     <>
@@ -98,12 +98,12 @@ function Header() {
         </div>
         <div className="mx-2">
           {accessToken && refreshToken ? (
-            <Link className="flex items-center" to="/Profile">
+            <Link className="flex items-center" to="/profile">
               <FaUser className="h-[35px] pr-2 text-white text-[30px] rounded-r-sm cursor-pointer" />
               <p className="text-[19px] text-white">Profile</p>
             </Link>
           ) : (
-            <Link className="flex items-center" to="/Login">
+            <Link className="flex items-center" to="/login">
               <FaUser className="h-[35px] pr-2 text-white text-[30px] rounded-r-sm cursor-pointer" />
               <p className="text-[19px] text-white">Login</p>
             </Link>
@@ -137,7 +137,7 @@ function Header() {
               </Link>
             </li>
             <li className="relative">
-              <Link className="px-4 hover:underline" to="/Cart">
+              <Link className="px-4 hover:underline" to="/cart">
                 Cart
               </Link>
               {cart?.length > 0 && (
@@ -148,12 +148,12 @@ function Header() {
               )}
             </li>
             <li>
-              <Link className="px-4 hover:underline" to="/Category?cate=">
+              <Link className="px-4 hover:underline" to="/category?cate=">
                 Category
               </Link>
             </li>
             <li>
-              <Link className="px-4 hover:underline" to="/About">
+              <Link className="px-4 hover:underline" to="/about">
                 About my website
               </Link>
             </li>
