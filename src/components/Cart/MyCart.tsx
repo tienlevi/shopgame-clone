@@ -1,13 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../theme/theme";
 import RemoveCart from "./RemoveCart";
 import useCart from "../../hooks/useCart";
 import Images from "../../utils/Images";
+import useAuth from "../../hooks/useAuth";
 
 interface myCart {
   id: number;
@@ -19,8 +20,12 @@ interface myCart {
 }
 
 function MyCart() {
+  const navigate = useNavigate();
   const [cart, setCart] = useState<myCart[]>([]);
   const { removeCart }: any = useCart();
+  const { user }: any = useAuth();
+
+  console.log(user);
 
   useEffect(() => {
     const value = localStorage.getItem("CartItems");
@@ -160,17 +165,22 @@ function MyCart() {
                 </h2>
               </div>
             </div>
-            <Link to="/order">
-              <Button
-                sx={{
-                  width: "100%",
-                }}
-                color="primary"
-                variant="contained"
-              >
-                Buy
-              </Button>
-            </Link>
+            <Button
+              sx={{
+                width: "100%",
+              }}
+              color="primary"
+              variant="contained"
+              onClick={() => {
+                if (!user) {
+                  toast.warning("You have to login to order");
+                } else {
+                  navigate("/order");
+                }
+              }}
+            >
+              Order
+            </Button>
           </div>
         </div>
       </div>

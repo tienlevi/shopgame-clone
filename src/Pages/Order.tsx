@@ -44,7 +44,6 @@ function Pay() {
       });
       reset(response.data.user);
     } catch (err) {
-      navigate("/");
       console.log(err);
     }
   };
