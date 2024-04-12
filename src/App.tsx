@@ -16,6 +16,9 @@ import ProtectedRoute from "./Auth/ProtectedRoute";
 import CartProvider from "./context/CartProvider";
 import "./index.css";
 import AuthProvider from "./context/AuthProvider";
+import User from "./components/Profile/User";
+import ChangeInfo from "./components/Profile/ChangeInfo";
+import History from "./components/Profile/History";
 
 function App() {
   return (
@@ -30,7 +33,11 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route element={<ProtectedRoute />}>
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile" element={<Profile />}>
+                <Route path="" element={<User />} />
+                <Route path="change-password" element={<ChangeInfo />} />
+                <Route path="history-order" element={<History />} />
+              </Route>
               <Route path="/order" element={<Order />} />
             </Route>
             <Route path="/search" element={<Search />} />
