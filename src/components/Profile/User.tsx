@@ -10,24 +10,21 @@ function User() {
   const api = useInterceptors();
   const navigate = useNavigate();
 
-  const getUser = async (token: any) => {
-    try {
-      const response = await api.get(`${apiUrl}/api/user`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      });
-      setUser(response.data.user);
-      console.log(user);
-    } catch (err) {
-      navigate("/");
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
-    getUser(accessToken);
+    const getUser = async () => {
+      try {
+        const response = await api.get(`${apiUrl}/api/user`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        setUser(response.data.user);
+      } catch (err) {
+        navigate("/");
+        console.log(err);
+      }
+    };
+    getUser();
   }, [accessToken]);
 
   return (

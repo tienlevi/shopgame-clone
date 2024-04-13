@@ -22,16 +22,16 @@ function Login() {
   } = useForm<Input>({ defaultValues: { email: "", password: "" } });
   const formValue = watch();
   const { email, password } = formValue;
-  const { user, setUser }: any = useAuth();
+  const { accessToken }: any = useAuth();
   const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    if (user) {
+    if (accessToken) {
       navigate("/profile");
     }
-  }, [navigate, user]);
+  }, [navigate, accessToken]);
 
   const onSubmit = async () => {
     try {
@@ -43,12 +43,11 @@ function Login() {
           withCredentials: true,
         }
       );
-      const accessToken = response?.data?.accessToken;
       const refreshToken = response?.data?.refreshToken;
-      setUser(user);
+
       navigate("/");
       localStorage.setItem("RefreshToken", refreshToken);
-      localStorage.setItem("AccessToken", accessToken);
+      localStorage.setItem("AccessToken", response?.data?.accessToken);
       window.location.reload();
     } catch (err: any) {
       if (err.response?.status === 401) {
