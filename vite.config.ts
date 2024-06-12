@@ -5,7 +5,7 @@ import envCompatible from "vite-plugin-env-compatible";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), envCompatible()],
-  envPrefix: "VITE_APP_BASE_SERVER",
+  envPrefix: "VITE_API_BASE_SERVER",
   resolve: {
     extensions: [
       ".tsx",

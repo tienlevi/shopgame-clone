@@ -1,1 +1,1 @@
-export const ApiUrl = (import.meta as any).env.VITE_APP_BASE_SERVER;
+export const ApiUrl = (import.meta as any).env.VITE_API_BASE_SERVER;

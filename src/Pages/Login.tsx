@@ -33,6 +33,8 @@ function Login() {
     }
   }, [navigate, accessToken]);
 
+  console.log(ApiUrl);
+
   const onSubmit = async () => {
     try {
       const response = await axios.post(
@@ -51,6 +53,12 @@ function Login() {
       window.location.reload();
     } catch (err: any) {
       if (err.response?.status === 401) {
+        setError("password", {
+          type: "401",
+          message: "Invalid email",
+        });
+      }
+      if (err.response?.status === 402) {
         setError("password", {
           type: "401",
           message: "Username or password incorrect",
