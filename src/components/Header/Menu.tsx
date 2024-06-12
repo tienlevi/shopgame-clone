@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
-import useCart from "../../hooks/useCart";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartProvider";
 
 interface MenuRes {
   active: boolean;
@@ -8,7 +9,7 @@ interface MenuRes {
 }
 
 function Menu({ active, closeMenu }: MenuRes) {
-  const { cart }: any = useCart();
+  const { cart } = useContext(CartContext);
   const menu = `${active ? "left-0" : "left-[-150%]"}`;
   const screen = `${
     active

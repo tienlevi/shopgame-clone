@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 import useRefreshToken from "./useRefreshToken";
 
-function useAxios() {
+function useInterceptors() {
   const axiosJWT = axios.create();
   const refresh = useRefreshToken();
   const accessToken = localStorage.getItem("AccessToken");
@@ -10,30 +11,15 @@ function useAxios() {
   useEffect(() => {
     axiosJWT.interceptors.request.use(
       async (config) => {
-        config.headers["Authorization"] = `Bearer ${accessToken}`;
+        const decodedToken = jwtDecode(accessToken as string);
+        const currentDate = new Date();
+        const newAccessToken = await refresh();
+        if ((decodedToken.exp as number) * 1000 < currentDate.getTime()) {
+          config.headers["Authorization"] = `Bearer ${newAccessToken}`;
+        }
         return config;
       },
       (error) => {
-        return Promise.reject(error);
-      }
-    );
-
-    axiosJWT.interceptors.response.use(
-      (response) => response,
-      async (error) => {
-        const prevRequest = error?.config;
-        const newAccessToken = await refresh();
-        if (error?.response?.status === 403 && !prevRequest.sent) {
-          prevRequest.sent = true;
-          try {
-            axiosJWT.defaults.headers.common[
-              "Authorization"
-            ] = `Bearer ${newAccessToken}`;
-            return prevRequest;
-          } catch (err) {
-            console.log(err);
-          }
-        }
         return Promise.reject(error);
       }
     );
@@ -42,4 +28,4 @@ function useAxios() {
   return axiosJWT;
 }
 
-export default useAxios;
+export default useInterceptors;

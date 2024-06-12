@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaCartPlus } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
@@ -6,8 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import ProductItems from "../../Items/ProductItems";
 import Images from "../../utils/Images";
 import AddToCart from "../Cart/AddToCart";
-import useCart from "../../hooks/useCart";
 import Product from "../../interface";
+import { CartContext } from "../../context/CartProvider";
 
 function SearchFilter() {
   const [product, setProduct] = useState<Product[]>([]);
@@ -15,7 +15,7 @@ function SearchFilter() {
   const param = new URLSearchParams(location.search);
   const search = param.get("name");
   const filter = useRef<any>([]);
-  const { addToCart }: any = useCart();
+  const { addToCart } = useContext(CartContext);
 
   filter.current = ProductItems.filter((item: any) =>
     item.name.toLowerCase().includes(search?.toLowerCase())

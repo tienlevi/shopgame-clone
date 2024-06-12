@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { FaUser, FaBars } from "react-icons/fa";
 import Paper from "@mui/material/Paper";
@@ -6,11 +6,11 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import Menu from "./Menu";
 import Images from "../../utils/Images";
-import useCart from "../../hooks/useCart";
 import "../../styles/style.css";
+import { CartContext } from "../../context/CartProvider";
 
 function Header() {
-  const { cart }: any = useCart();
+  const { cart } = useContext(CartContext);
   const [scroll, setScroll] = useState<boolean>(true);
   const [position, setPosition] = useState<number>(window.pageYOffset);
   const [toggle, setToggle] = useState<boolean>(false);

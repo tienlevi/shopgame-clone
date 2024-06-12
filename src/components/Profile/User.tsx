@@ -1,12 +1,12 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useInterceptors from "../../hooks/useInterceptors";
-import useAuth from "../../hooks/useAuth";
 import Tab from "./Tab";
 import { ApiUrl } from "../../constants";
+import { AuthContext } from "../../context/AuthProvider";
 
 function User() {
-  const { accessToken, user, setUser }: any = useAuth();
+  const { accessToken, user, setUser }: any = useContext(AuthContext);
   const api = useInterceptors();
   const navigate = useNavigate();
 

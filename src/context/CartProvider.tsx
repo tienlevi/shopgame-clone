@@ -7,7 +7,7 @@ interface CartItem extends Product {
   removeCart: (itemId: number) => void;
 }
 
-export const CartContext = createContext<CartItem | null>(null);
+export const CartContext = createContext({} as CartItem);
 
 function CartProvider({ children }: any) {
   const [cart, setCart] = useState<CartItem[]>([]);

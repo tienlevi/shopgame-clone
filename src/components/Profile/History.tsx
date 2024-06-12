@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Tab from "./Tab";
-import useAuth from "../../hooks/useAuth";
 import useInterceptors from "../../hooks/useInterceptors";
 import { ApiUrl } from "../../constants";
+import { AuthContext } from "../../context/AuthProvider";
 
 interface OrderItems {
   _id: string;
@@ -21,7 +21,7 @@ interface OrderItems {
 
 function History() {
   const [lists, setLists] = useState<OrderItems[]>([]);
-  const { accessToken, user, setUser }: any = useAuth();
+  const { accessToken, user, setUser }: any = useContext(AuthContext);
   const api = useInterceptors();
 
   useEffect(() => {

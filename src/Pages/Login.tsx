@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaArrowLeft, FaGoogle } from "react-icons/fa";
 import Title from "../components/Title/Title";
-import useAuth from "../hooks/useAuth";
 import { ApiUrl } from "../constants";
+import { AuthContext } from "../context/AuthProvider";
 
 interface Input {
   email: string;
@@ -23,7 +23,7 @@ function Login() {
   } = useForm<Input>({ defaultValues: { email: "", password: "" } });
   const formValue = watch();
   const { email, password } = formValue;
-  const { accessToken }: any = useAuth();
+  const { accessToken } = useContext(AuthContext);
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
 

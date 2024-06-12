@@ -1,8 +1,9 @@
 import { Outlet, Navigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
 
 function ProtectedRoute() {
-  const { accessToken }: any = useAuth();
+  const { accessToken } = useContext(AuthContext);
 
   return accessToken ? <Outlet /> : <Navigate to="/" />;
 }

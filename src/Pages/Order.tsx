@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
@@ -8,10 +8,10 @@ import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import Title from "../components/Title/Title";
-import useCart from "../hooks/useCart";
-import useAuth from "../hooks/useAuth";
 import useInterceptors from "../hooks/useInterceptors";
 import { ApiUrl } from "../constants";
+import { AuthContext } from "../context/AuthProvider";
+import { CartContext } from "../context/CartProvider";
 
 interface myCart {
   id: number;
@@ -31,8 +31,8 @@ function Pay() {
   const [checked, setChecked] = useState<number>(1);
   const api = useInterceptors();
   const navigate = useNavigate();
-  const { accessToken, user }: any = useAuth();
-  const { cart }: any = useCart();
+  const { accessToken, user }: any = useContext(AuthContext);
+  const { cart } = useContext(CartContext);
 
   const getUser = async (token: any) => {
     try {

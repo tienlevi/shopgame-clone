@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { ApiUrl } from "../constants";
 
-function RefreshToken() {
+function useRefreshToken() {
   const [accessToken, setAccessToken] = useState<string>("");
 
   const refreshToken = async () => {
@@ -22,4 +22,4 @@ function RefreshToken() {
   return refreshToken;
 }
 
-export default RefreshToken;
+export default useRefreshToken;

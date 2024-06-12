@@ -1,12 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import { Link } from "react-router-dom";
 import { FaCartPlus } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductItems from "../../Items/ProductItems";
 import AddToCart from "../Cart/AddToCart";
-import useCart from "../../hooks/useCart";
 import Images from "../../utils/Images";
+import { CartContext } from "../../context/CartProvider";
 
 interface Product {
   id?: number;
@@ -19,7 +19,7 @@ interface Product {
 
 function Products() {
   const [product, setProduct] = useState<Product[]>([]);
-  const { addToCart }: any = useCart();
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     const saved = localStorage.getItem("CartItems");

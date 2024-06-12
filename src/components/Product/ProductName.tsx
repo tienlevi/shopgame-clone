@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Stack, Button, ThemeProvider } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
@@ -7,9 +7,9 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import theme from "../theme/theme";
 import ProductItems from "../../Items/ProductItems";
 import AddToCart from "../Cart/AddToCart";
-import useCart from "../../hooks/useCart";
 import Images from "../../utils/Images";
 import Product from "../../interface";
+import { CartContext } from "../../context/CartProvider";
 
 function ProductName() {
   const { id } = useParams<string>();
@@ -17,7 +17,7 @@ function ProductName() {
   const thisProduct = ProductItems.find((item) => item.id === num);
   const [product, setProduct] = useState<Product[]>([]);
   const [isCartAdded, setIsCartAdded] = useState<boolean>(false);
-  const { addToCart }: any = useCart();
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     const saved = localStorage.getItem("CartItems");

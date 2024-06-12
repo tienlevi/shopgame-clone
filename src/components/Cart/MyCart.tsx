@@ -1,14 +1,14 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../theme/theme";
 import RemoveCart from "./RemoveCart";
-import useCart from "../../hooks/useCart";
 import Images from "../../utils/Images";
-import useAuth from "../../hooks/useAuth";
+import { AuthContext } from "../../context/AuthProvider";
+import { CartContext } from "../../context/CartProvider";
 
 interface myCart {
   id: number;
@@ -22,10 +22,8 @@ interface myCart {
 function MyCart() {
   const navigate = useNavigate();
   const [cart, setCart] = useState<myCart[]>([]);
-  const { removeCart }: any = useCart();
-  const { user }: any = useAuth();
-
-  console.log(user);
+  const { removeCart } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const value = localStorage.getItem("CartItems");

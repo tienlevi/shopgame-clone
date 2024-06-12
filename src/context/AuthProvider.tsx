@@ -6,7 +6,7 @@ interface Auth {
   setUser: (value: any) => void;
 }
 
-export const AuthContext = createContext<undefined | Auth>(undefined);
+export const AuthContext = createContext({} as Auth);
 
 export const AuthProvider = ({ children }: any) => {
   const accessToken: any = localStorage.getItem("AccessToken");
