@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import useInterceptors from "../../hooks/useInterceptors";
 import useAuth from "../../hooks/useAuth";
 import Tab from "./Tab";
+import { ApiUrl } from "../../constants";
 
 function User() {
-  const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
   const { accessToken, user, setUser }: any = useAuth();
   const api = useInterceptors();
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ function User() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await api.get(`${apiUrl}/api/user`, {
+        const response = await api.get(`${ApiUrl}/api/user`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

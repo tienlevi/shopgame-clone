@@ -11,6 +11,7 @@ import Title from "../components/Title/Title";
 import useCart from "../hooks/useCart";
 import useAuth from "../hooks/useAuth";
 import useInterceptors from "../hooks/useInterceptors";
+import { ApiUrl } from "../constants";
 
 interface myCart {
   id: number;
@@ -30,13 +31,12 @@ function Pay() {
   const [checked, setChecked] = useState<number>(1);
   const api = useInterceptors();
   const navigate = useNavigate();
-  const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
   const { accessToken, user }: any = useAuth();
   const { cart }: any = useCart();
 
   const getUser = async (token: any) => {
     try {
-      const response = await api.get(`${apiUrl}/api/user`, {
+      const response = await api.get(`${ApiUrl}/api/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -62,7 +62,7 @@ function Pay() {
 
   const onSubmit = async (data: object) => {
     try {
-      const response = await axios.post(`${apiUrl}/api/orders`, {
+      const response = await axios.post(`${ApiUrl}/api/orders`, {
         userId: user?._id,
         items: cart.map(({ id, ...rest }: any) => ({ ...rest })),
         userInfo: data,

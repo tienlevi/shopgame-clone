@@ -3,6 +3,7 @@ import axios from "axios";
 import Tab from "./Tab";
 import useAuth from "../../hooks/useAuth";
 import useInterceptors from "../../hooks/useInterceptors";
+import { ApiUrl } from "../../constants";
 
 interface OrderItems {
   _id: string;
@@ -19,7 +20,6 @@ interface OrderItems {
 }
 
 function History() {
-  const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
   const [lists, setLists] = useState<OrderItems[]>([]);
   const { accessToken, user, setUser }: any = useAuth();
   const api = useInterceptors();
@@ -27,7 +27,7 @@ function History() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/api/orders`);
+        const response = await axios.get(`${ApiUrl}/api/orders`);
         setLists(response.data);
       } catch (error) {
         console.log(error);
@@ -38,7 +38,7 @@ function History() {
 
   const getUser = async (token: any) => {
     try {
-      const response = await api.get(`${apiUrl}/api/user`, {
+      const response = await api.get(`${ApiUrl}/api/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

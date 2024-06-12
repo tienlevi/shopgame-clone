@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
+import { ApiUrl } from "../constants";
 
 function RefreshToken() {
-  const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
   const [accessToken, setAccessToken] = useState<string>("");
 
   const refreshToken = async () => {
     const refreshToken = localStorage.getItem("RefreshToken");
     try {
-      const response = await axios.post(`${apiUrl}/api/refresh`, {
+      const response = await axios.post(`${ApiUrl}/api/refresh`, {
         refreshToken,
       });
       const newAccessToken = response.data?.accessToken;

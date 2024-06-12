@@ -5,6 +5,7 @@ import axios from "axios";
 import { FaArrowLeft, FaGoogle } from "react-icons/fa";
 import Title from "../components/Title/Title";
 import useAuth from "../hooks/useAuth";
+import { ApiUrl } from "../constants";
 
 interface Input {
   email: string;
@@ -23,7 +24,6 @@ function Login() {
   const formValue = watch();
   const { email, password } = formValue;
   const { accessToken }: any = useAuth();
-  const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
 
@@ -36,7 +36,7 @@ function Login() {
   const onSubmit = async () => {
     try {
       const response = await axios.post(
-        `${apiUrl}/api/login`,
+        `${ApiUrl}/api/login`,
         { email, password },
         {
           headers: { "Content-Type": "application/json" },

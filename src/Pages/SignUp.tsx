@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
 import Title from "../components/Title/Title";
+import { ApiUrl } from "../constants";
 
 interface Input {
   name: string;
@@ -25,7 +26,6 @@ function SignUp() {
   });
   const formValue = watch();
   const { name, email, password, tel } = formValue;
-  const apiUrl: any = (import.meta as any).env?.BASE_SERVER;
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("AccessToken");
   axios.defaults.withCredentials = true;
@@ -38,7 +38,7 @@ function SignUp() {
 
   const onSubmit = async () => {
     try {
-      const response = await axios.post(`${apiUrl}/api/signup`, {
+      const response = await axios.post(`${ApiUrl}/api/signup`, {
         name,
         password,
         email,
