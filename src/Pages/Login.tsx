@@ -33,8 +33,6 @@ function Login() {
     }
   }, [navigate, accessToken]);
 
-  console.log(ApiUrl);
-
   const onSubmit = async () => {
     try {
       const response = await axios.post(
