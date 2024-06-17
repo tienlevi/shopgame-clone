@@ -7,8 +7,8 @@ import { ThemeProvider } from "@emotion/react";
 import theme from "../theme/theme";
 import RemoveCart from "./RemoveCart";
 import Images from "../../utils/Images";
-import { AuthContext } from "../../context/AuthProvider";
 import { CartContext } from "../../context/CartProvider";
+import useUser from "../../hooks/useUser";
 
 interface myCart {
   id: number;
@@ -20,10 +20,10 @@ interface myCart {
 }
 
 function MyCart() {
+  const { user } = useUser();
   const navigate = useNavigate();
   const [cart, setCart] = useState<myCart[]>([]);
   const { removeCart } = useContext(CartContext);
-  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const value = localStorage.getItem("CartItems");

@@ -1,9 +1,8 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Tab from "./Tab";
-import useInterceptors from "../../hooks/useInterceptors";
 import { ApiUrl } from "../../constants";
-import { AuthContext } from "../../context/AuthProvider";
+import useUser from "../../hooks/useUser";
 
 interface OrderItems {
   _id: string;
@@ -21,8 +20,7 @@ interface OrderItems {
 
 function History() {
   const [lists, setLists] = useState<OrderItems[]>([]);
-  const { accessToken, user, setUser }: any = useContext(AuthContext);
-  const api = useInterceptors();
+  const { user } = useUser();
 
   useEffect(() => {
     const getData = async () => {
@@ -36,24 +34,6 @@ function History() {
     getData();
   }, []);
 
-  const getUser = async (token: any) => {
-    try {
-      const response = await api.get(`${ApiUrl}/api/user`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      });
-      setUser(response.data.user);
-      console.log(user);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    getUser(accessToken);
-  }, [accessToken]);
   return (
     <>
       {" "}

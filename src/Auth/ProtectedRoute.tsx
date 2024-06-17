@@ -1,11 +1,22 @@
 import { Outlet, Navigate } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthProvider";
+import useUser from "../hooks/useUser";
 
 function ProtectedRoute() {
-  const { accessToken } = useContext(AuthContext);
+  const { user, isLoading, error } = useUser();
 
-  return accessToken ? <Outlet /> : <Navigate to="/" />;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error?.message}</div>;
+  }
+
+  if (user === null) {
+    return <Navigate to="/login" replace />;
+  } else {
+    return <Outlet />;
+  }
 }
 
 export default ProtectedRoute;

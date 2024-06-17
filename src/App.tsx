@@ -15,7 +15,6 @@ import Order from "./pages/Order";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import CartProvider from "./context/CartProvider";
 import "./index.css";
-import AuthProvider from "./context/AuthProvider";
 import User from "./components/Profile/User";
 import ChangeInfo from "./components/Profile/ChangeInfo";
 import History from "./components/Profile/History";
@@ -24,27 +23,25 @@ function App() {
   return (
     <div className="App">
       <CartProvider>
-        <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/product-detail/:id" element={<ProductDetail />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/profile" element={<Profile />}>
-                <Route path="" element={<User />} />
-                <Route path="change-password" element={<ChangeInfo />} />
-                <Route path="history-order" element={<History />} />
-              </Route>
-              <Route path="/order" element={<Order />} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/product-detail/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/profile" element={<Profile />}>
+              <Route path="" element={<User />} />
+              <Route path="change-password" element={<ChangeInfo />} />
+              <Route path="history-order" element={<History />} />
             </Route>
-            <Route path="/search" element={<Search />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/category" element={<Category />} />
-          </Routes>
-        </AuthProvider>
+            <Route path="/order" element={<Order />} />
+          </Route>
+          <Route path="/search" element={<Search />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/category" element={<Category />} />
+        </Routes>
       </CartProvider>
       <ScrollToTop />
       <Onload />

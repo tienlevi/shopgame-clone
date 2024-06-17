@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaLock, FaUser, FaShoppingCart } from "react-icons/fa";
 import { CiShoppingCart } from "react-icons/ci";
 import { BiLogOut } from "react-icons/bi";
+import useUser from "../../hooks/useUser";
 
 const tabs = [
   {
@@ -22,11 +23,13 @@ const tabs = [
 ];
 
 function Tab() {
+  const { setUser } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleLogout = () => {
     navigate("/");
+    setUser(null);
     localStorage.removeItem("RefreshToken");
     localStorage.removeItem("AccessToken");
     window.location.reload();

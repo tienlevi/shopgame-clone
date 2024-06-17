@@ -10,8 +10,8 @@ import Footer from "../components/Footer/Footer";
 import Title from "../components/Title/Title";
 import useInterceptors from "../hooks/useInterceptors";
 import { ApiUrl } from "../constants";
-import { AuthContext } from "../context/AuthProvider";
 import { CartContext } from "../context/CartProvider";
+import useUser from "../hooks/useUser";
 
 interface myCart {
   id: number;
@@ -22,6 +22,7 @@ interface myCart {
 }
 
 function Pay() {
+  const { user } = useUser();
   const { register, handleSubmit, reset } = useForm();
   const methodPay = [
     { id: 1, name: "PayPal" },
@@ -31,7 +32,6 @@ function Pay() {
   const [checked, setChecked] = useState<number>(1);
   const api = useInterceptors();
   const navigate = useNavigate();
-  const { accessToken, user }: any = useContext(AuthContext);
   const { cart } = useContext(CartContext);
 
   const getUser = async (token: any) => {
@@ -47,9 +47,6 @@ function Pay() {
       console.log(err);
     }
   };
-  useEffect(() => {
-    getUser(accessToken);
-  }, [accessToken]);
 
   useEffect(() => {
     const value = localStorage.getItem("CartItems");

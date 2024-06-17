@@ -9,9 +9,9 @@ function useInterceptors() {
   const accessToken = localStorage.getItem("AccessToken");
 
   useEffect(() => {
-    axiosJWT.interceptors.request.use(
+    const requestJWT = axiosJWT.interceptors.request.use(
       async (config) => {
-        const decodedToken = jwtDecode(accessToken as string);
+        const decodedToken: any = jwtDecode(accessToken as string);
         const currentDate = new Date();
         const newAccessToken = await refresh();
         if ((decodedToken.exp as number) * 1000 < currentDate.getTime()) {
@@ -23,6 +23,10 @@ function useInterceptors() {
         return Promise.reject(error);
       }
     );
+
+    return () => {
+      axiosJWT.interceptors.request.eject(requestJWT);
+    };
   }, [accessToken, axiosJWT, refresh]);
 
   return axiosJWT;

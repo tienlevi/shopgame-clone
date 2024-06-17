@@ -8,6 +8,7 @@ import Menu from "./Menu";
 import Images from "../../utils/Images";
 import "../../styles/style.css";
 import { CartContext } from "../../context/CartProvider";
+import useUser from "../../hooks/useUser";
 
 function Header() {
   const { cart } = useContext(CartContext);
@@ -16,8 +17,7 @@ function Header() {
   const [toggle, setToggle] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const body = document.querySelector("body");
-  const accessToken = localStorage.getItem("AccessToken");
-  const refreshToken = localStorage.getItem("RefreshToken");
+  const { user, isLoading } = useUser();
 
   useEffect(() => {
     const ScrollMouse = () => {
@@ -63,6 +63,7 @@ function Header() {
   const handleSearch = () => {
     window.location.href = `/search?name=${search}`;
   };
+
   return (
     <>
       <header
@@ -97,7 +98,9 @@ function Header() {
           </Paper>
         </div>
         <div className="mx-2">
-          {accessToken && refreshToken ? (
+          {isLoading ? (
+            <p className="text-[19px] text-white">Loading...</p>
+          ) : user ? (
             <Link className="flex items-center" to="/profile">
               <FaUser className="h-[35px] pr-2 text-white text-[30px] rounded-r-sm cursor-pointer" />
               <p className="text-[19px] text-white">Profile</p>

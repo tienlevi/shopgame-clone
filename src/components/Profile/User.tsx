@@ -1,31 +1,8 @@
-import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import useInterceptors from "../../hooks/useInterceptors";
 import Tab from "./Tab";
-import { ApiUrl } from "../../constants";
-import { AuthContext } from "../../context/AuthProvider";
+import useUser from "../../hooks/useUser";
 
 function User() {
-  const { accessToken, user, setUser }: any = useContext(AuthContext);
-  const api = useInterceptors();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const response = await api.get(`${ApiUrl}/api/user`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        setUser(response.data.user);
-      } catch (err) {
-        navigate("/");
-        console.log(err);
-      }
-    };
-    getUser();
-  }, [accessToken]);
+  const { user } = useUser();
 
   return (
     <>

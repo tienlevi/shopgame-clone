@@ -1,11 +1,11 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaArrowLeft, FaGoogle } from "react-icons/fa";
 import Title from "../components/Title/Title";
 import { ApiUrl } from "../constants";
-import { AuthContext } from "../context/AuthProvider";
+import useUser from "../hooks/useUser";
 
 interface Input {
   email: string;
@@ -14,6 +14,7 @@ interface Input {
 }
 
 function Login() {
+  const { user } = useUser();
   const {
     register,
     handleSubmit,
@@ -23,15 +24,12 @@ function Login() {
   } = useForm<Input>({ defaultValues: { email: "", password: "" } });
   const formValue = watch();
   const { email, password } = formValue;
-  const { accessToken } = useContext(AuthContext);
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    if (accessToken) {
-      navigate("/profile");
-    }
-  }, [navigate, accessToken]);
+    user && navigate("/profile");
+  }, [navigate, user]);
 
   const onSubmit = async () => {
     try {
@@ -44,7 +42,6 @@ function Login() {
         }
       );
       const refreshToken = response?.data?.refreshToken;
-
       navigate("/");
       localStorage.setItem("RefreshToken", refreshToken);
       localStorage.setItem("AccessToken", response?.data?.accessToken);
