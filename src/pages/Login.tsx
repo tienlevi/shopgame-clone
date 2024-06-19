@@ -123,7 +123,7 @@ function Login() {
                 You don't have an account ?
                 <Link
                   className="text-lightBlue ml-1 decoration-auto"
-                  to="/signUp"
+                  to="/signup"
                 >
                   Sign Up
                 </Link>

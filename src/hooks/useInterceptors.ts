@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import useRefreshToken from "./useRefreshToken";
+import { axiosPrivate } from "../api/axios";
 
 function useInterceptors() {
   const axiosJWT = axios.create();
@@ -24,10 +25,23 @@ function useInterceptors() {
       }
     );
 
-    const responseJWT = axiosJWT.interceptors.response.use();
+    const responseJWT = axiosJWT.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const prevRequest = error?.config;
+        if (error?.response?.status === 403 && !prevRequest?.sent) {
+          prevRequest.sent = true;
+          const newAccessToken = await refresh();
+          prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+          return axiosPrivate(prevRequest);
+        }
+        return Promise.reject(error);
+      }
+    );
 
     return () => {
       axiosJWT.interceptors.request.eject(requestJWT);
+      axiosJWT.interceptors.response.eject(responseJWT);
     };
   }, [accessToken, axiosJWT, refresh]);
 
