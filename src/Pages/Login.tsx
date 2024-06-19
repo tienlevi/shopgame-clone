@@ -6,6 +6,8 @@ import { FaArrowLeft, FaGoogle } from "react-icons/fa";
 import Title from "../components/Title/Title";
 import { ApiUrl } from "../constants";
 import useUser from "../hooks/useUser";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Input {
   email: string;
@@ -42,6 +44,7 @@ function Login() {
         }
       );
       const refreshToken = response?.data?.refreshToken;
+      toast.success("Login success");
       navigate("/");
       localStorage.setItem("RefreshToken", refreshToken);
       localStorage.setItem("AccessToken", response?.data?.accessToken);
@@ -70,6 +73,7 @@ function Login() {
 
   return (
     <Title title="Login">
+      <ToastContainer />
       <div className="absolute top-0 left-0 right-0 bottom-0 bg-bluesecond">
         <form
           onSubmit={handleSubmit(onSubmit)}

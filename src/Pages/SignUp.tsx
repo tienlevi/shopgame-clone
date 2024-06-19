@@ -5,6 +5,7 @@ import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
 import Title from "../components/Title/Title";
 import { ApiUrl } from "../constants";
+import { ToastContainer, toast } from "react-toastify";
 
 interface Input {
   name: string;
@@ -45,6 +46,7 @@ function SignUp() {
         tel,
       });
       const refreshToken = response.data?.refreshToken;
+      toast.success("Sign Up success");
       console.log(response);
       console.log(refreshToken);
     } catch (err: any) {
@@ -65,6 +67,7 @@ function SignUp() {
 
   return (
     <Title title="Register">
+      <ToastContainer />
       <div className="absolute top-0 left-0 right-0 bottom-0 bg-bluesecond">
         <form
           onSubmit={handleSubmit(onSubmit)}
