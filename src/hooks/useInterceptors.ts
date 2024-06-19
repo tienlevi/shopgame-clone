@@ -24,6 +24,8 @@ function useInterceptors() {
       }
     );
 
+    const responseJWT = axiosJWT.interceptors.response.use();
+
     return () => {
       axiosJWT.interceptors.request.eject(requestJWT);
     };
