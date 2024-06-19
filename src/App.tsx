@@ -12,7 +12,7 @@ import Search from "./pages/Search";
 import About from "./pages/About";
 import Category from "./pages/Category";
 import Order from "./pages/Order";
-import ProtectedRoute from "./Auth/ProtectedRoute";
+import ProtectedRoute from "./authentication/ProtectedRoute";
 import CartProvider from "./context/CartProvider";
 import "./index.css";
 import User from "./components/Profile/User";
