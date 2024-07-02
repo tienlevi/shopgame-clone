@@ -3,7 +3,7 @@ import Header from "../components/Header/Header";
 import TabFilter from "../components/Filter/TabFilter";
 import Footer from "../components/Footer/Footer";
 import Title from "../components/Title/Title";
-import ProductItems from "../Items/ProductItems";
+import ProductItems from "../constants/ProductItems";
 
 function Category() {
   const location = useLocation();

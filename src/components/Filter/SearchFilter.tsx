@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { FaCartPlus } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ProductItems from "../../Items/ProductItems";
+import ProductItems from "../../constants/ProductItems";
 import Images from "../../utils/Images";
 import AddToCart from "../Cart/AddToCart";
 import Product from "../../interface";

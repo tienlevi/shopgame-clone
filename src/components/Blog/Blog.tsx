@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Images from "../../utils/Images";
-import BlogData from "../../Items/Blog";
+import BlogData from "../../constants/Blog";
 
 function Blog() {
   const swiperParams = {

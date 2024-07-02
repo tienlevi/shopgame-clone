@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import theme from "../theme/theme";
-import ProductItems from "../../Items/ProductItems";
+import ProductItems from "../../constants/ProductItems";
 import AddToCart from "../Cart/AddToCart";
 import Images from "../../utils/Images";
 import Product from "../../interface";
