@@ -55,18 +55,21 @@ function Login() {
           type: "401",
           message: "Invalid email",
         });
+        toast.error("Invalid email");
       }
       if (err.response?.status === 402) {
         setError("password", {
           type: "401",
           message: "Username or password incorrect",
         });
+        toast.error("Username or password incorrect");
       }
       if (err.response?.status === 500) {
         setError("serverError", {
           type: "500",
           message: "Server Error",
         });
+        toast.error("Username or password incorrect");
       }
     }
   };

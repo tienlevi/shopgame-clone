@@ -3,23 +3,14 @@ import axios from "axios";
 import Tab from "./Tab";
 import { ApiUrl } from "../../constants";
 import useUser from "../../hooks/useUser";
-
-interface OrderItems {
-  _id: string;
-  items: [{ name: string; price: number; img: string; category: string }];
-  status: string;
-  totalPrice: number;
-  userInfo: {
-    _id: string;
-    name: string;
-    email: string;
-    address: string;
-    tel: string;
-  };
-}
+import { OrderItems } from "../../interface";
 
 function History() {
   const [lists, setLists] = useState<OrderItems[]>([]);
+  const format = new Date(lists[0]?.createdAt);
+
+  console.log(format.toLocaleString());
+
   const { user } = useUser();
 
   useEffect(() => {
@@ -52,9 +43,11 @@ function History() {
                 <div className="my-1" key={index}>
                   {user?._id === items.userInfo._id &&
                     items.items.map((item, index: number) => (
-                      <p key={index} className="h-[40px] text-[18px] my-2">
-                        {item.name}
-                      </p>
+                      <>
+                        <p key={index} className="h-[40px] text-[18px] my-2">
+                          {item.name}
+                        </p>
+                      </>
                     ))}
                 </div>
               ))}

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -55,12 +55,14 @@ function SignUp() {
           type: "402",
           message: "User already registered.",
         });
+        toast.error("User already registered.");
       }
       if (err.response?.status === 400) {
         setError("password", {
           type: "402",
           message: "Password must be at least 6 characters long",
         });
+        toast.error("Password must be at least 6 characters long");
       }
     }
   };
