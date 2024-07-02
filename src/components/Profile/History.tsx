@@ -4,19 +4,17 @@ import Tab from "./Tab";
 import { ApiUrl } from "../../constants";
 import useUser from "../../hooks/useUser";
 import { OrderItems } from "../../interface";
+import { formatDate } from "../../utils/format";
+import Images from "../../utils/Images";
 
 function History() {
   const [lists, setLists] = useState<OrderItems[]>([]);
-  const format = new Date(lists[0]?.createdAt);
-
-  console.log(format.toLocaleString());
-
   const { user } = useUser();
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(`${ApiUrl}/api/orders`);
+        const response = await axios.get(`${ApiUrl}/api/orders/${user?._id}`);
         setLists(response.data);
       } catch (error) {
         console.log(error);
@@ -27,7 +25,6 @@ function History() {
 
   return (
     <>
-      {" "}
       <div className="max-w-[1200px] mx-auto mt-[140px] px-3">
         <h1 className="text-[29px] font-bold mb-5">Profile </h1>
         <div className="flex justify-between lg:flex-col">
@@ -39,16 +36,46 @@ function History() {
               </h1>
             </div>
             <div className="p-3">
-              {lists.map((items: OrderItems, index: number) => (
+              {lists.map((list: OrderItems, index: number) => (
                 <div className="my-1" key={index}>
-                  {user?._id === items.userInfo._id &&
-                    items.items.map((item, index: number) => (
-                      <>
-                        <p key={index} className="h-[40px] text-[18px] my-2">
-                          {item.name}
-                        </p>
-                      </>
+                  <p className="text-[22px] font-bold mb-2">
+                    Order Date: {formatDate(list.createdAt)}
+                  </p>
+                  <p className="text-black text-[19px] mb-2">
+                    Status <span className="text-green"> {list.status}</span>
+                  </p>
+                  <table className="w-full">
+                    <tr>
+                      <td className="w-[30px] p-2 border border-black">Id</td>
+                      <td className="w-[250px] p-2 border border-black">
+                        Name
+                      </td>
+                      <td className="w-[100px] p-2 border border-black">
+                        Price
+                      </td>
+                      <td className="w-[150px] p-2 border border-black">
+                        Image
+                      </td>
+                      <td className="w-[100px] p-2 border border-black">
+                        Category
+                      </td>
+                    </tr>
+                    {list.items.map((item, index: number) => (
+                      <tr key={index}>
+                        <td className="border border-black">{index + 1}</td>
+                        <td className="border border-black">{item.name}</td>
+                        <td className="border border-black">{item.price}</td>
+                        <td className="border border-black p-2">
+                          <img
+                            src={Images(item.img)}
+                            alt=""
+                            className="w-[150px] h-[100px] object-contain"
+                          />
+                        </td>
+                        <td className="border border-black">{item.category}</td>
+                      </tr>
                     ))}
+                  </table>
                 </div>
               ))}
             </div>

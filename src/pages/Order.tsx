@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
@@ -31,8 +30,7 @@ function Pay() {
   const [cartItems, setCartItems] = useState<myCart[]>([]);
   const [checked, setChecked] = useState<number>(1);
   const api = useInterceptors();
-  const navigate = useNavigate();
-  const { cart } = useContext(CartContext);
+  const { cart, setCart } = useContext(CartContext);
 
   const getUser = async (token: any) => {
     try {
@@ -67,6 +65,7 @@ function Pay() {
       });
       toast.success("Order success");
       localStorage.removeItem("CartItems");
+      setCart([]);
       return response.data;
     } catch (error) {
       console.log(error);

@@ -3,6 +3,7 @@ import Product from "../interface";
 
 interface CartItem extends Product {
   cart: Product[];
+  setCart: (data: any) => void;
   addToCart: (prev: any) => void;
   removeCart: (itemId: number) => void;
 }
@@ -35,7 +36,7 @@ function CartProvider({ children }: any) {
 
   return (
     <CartContext.Provider
-      value={{ cart: cart as Product[], addToCart, removeCart }}
+      value={{ cart: cart as Product[], setCart, addToCart, removeCart }}
     >
       {children}
     </CartContext.Provider>
