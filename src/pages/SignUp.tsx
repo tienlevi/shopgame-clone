@@ -11,6 +11,7 @@ interface Input {
   name: string;
   email: string;
   password: string;
+  confirmPassword: string;
   tel: string;
   serverError?: string;
 }
@@ -23,7 +24,13 @@ function SignUp() {
     setError,
     watch,
   } = useForm<Input>({
-    defaultValues: { name: "", email: "", password: "", tel: "" },
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      tel: "",
+    },
   });
   const formValue = watch();
   const { name, email, password, tel } = formValue;
@@ -103,12 +110,31 @@ function SignUp() {
               className="w-[280px] h-[35px] text-[18px] border-[1px] border-black mt-4 pl-3 rounded-[20px] focus:outline-none"
               type="password"
               placeholder="password"
-              {...register("password", { required: true })}
+              {...register("password", {
+                required: true,
+              })}
             />
             {errors.password?.type === "required" && (
               <p className="text-[20px] text-red mt-2">password is required</p>
             )}
-
+            <input
+              className="w-[280px] h-[35px] text-[18px] border-[1px] border-black mt-4 pl-3 rounded-[20px] focus:outline-none"
+              type="password"
+              placeholder="Confirm Password"
+              {...register("confirmPassword", {
+                required: true,
+                validate: (value) => {
+                  if (value != watch("password")) {
+                    return "Not match password";
+                  }
+                },
+              })}
+            />
+            {errors.confirmPassword && (
+              <span style={{ color: "red" }}>
+                {errors.confirmPassword.message}
+              </span>
+            )}
             <input
               className="w-[280px] h-[35px] text-[18px] border-[1px] border-black mt-4 pl-3 rounded-[20px] focus:outline-none"
               type="text"
